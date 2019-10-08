@@ -10,9 +10,9 @@ const StorybookApp = require('./storybook-app-stack')
 const app = new App({ autoSynth: true })
 const config = { ...dotenv.config().parsed }
 
+const { userPool } = new Cognito(app, `${config.STACK_NAME}-${config.STACK_ENV}-Cognito`, { ...config })
+const { graphQlApi } = new GraphQL(app, `${config.STACK_NAME}-${config.STACK_ENV}-GraphQL`, { ...config, userPool })
 new E2ETests(app, `${config.STACK_NAME}-${config.STACK_ENV}-E2ETests`, { ...config })
 new SalesApp(app, `${config.STACK_NAME}-${config.STACK_ENV}-SalesApp`, { ...config })
 new ShopApp(app, `${config.STACK_NAME}-${config.STACK_ENV}-ShopApp`, { ...config })
 new StorybookApp(app, `${config.STACK_NAME}-${config.STACK_ENV}-StorybookApp`, { ...config })
-const { userPool } = new Cognito(app, `${config.STACK_NAME}-${config.STACK_ENV}-Cognito`, { ...config })
-const { graphQlApi } = new GraphQL(app, `${config.STACK_NAME}-${config.STACK_ENV}-GraphQL`, { ...config, userPool })
