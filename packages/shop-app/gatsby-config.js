@@ -1,4 +1,4 @@
-const fetch = require('isomorphic-unfetch')
+const fetch = require('isomorphic-fetch')
 const { createHttpLink } = require('apollo-link-http')
 
 require('dotenv').config({
