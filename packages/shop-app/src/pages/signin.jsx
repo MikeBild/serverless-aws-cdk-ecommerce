@@ -32,7 +32,7 @@ export default function SignIn() {
       if (challengeName === 'NEW_PASSWORD_REQUIRED') return navigate('/new-password')
 
       localStorage.setItem('token', signInUserSession.accessToken.jwtToken)
-      navigate('/products')
+      navigate('/')
     } catch (error) {
       console.error(error)
       setIsLoading(false)
