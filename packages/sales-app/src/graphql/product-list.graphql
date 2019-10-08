@@ -1,0 +1,9 @@
+#import "./product-fragment.graphql"
+
+query ProductList {
+  productList {
+    products: items {
+      ...ProductFragment
+    }
+  }
+}

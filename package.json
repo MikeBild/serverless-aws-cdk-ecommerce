@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "root",
+  "devDependencies": {
+    "lerna": "^3.16.5"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "lerna": "lerna clean --yes && lerna bootstrap",
+    "develop": "lerna run develop --stream",
+    "clean": "lerna run clean",
+    "build": "npm run clean && lerna run build --stream",
+    "test": "lerna run test --stream",
+    "deploy": "lerna run deploy --stream -- ECommerce-*",
+    "format": "lerna run format --stream"
+  }
+}

@@ -1,0 +1,7 @@
+#import "./product-fragment.graphql"
+
+mutation ProductUpsert($input: ProductInput!) {
+  productUpsert(input: $input) {
+    ...ProductFragment
+  }
+}

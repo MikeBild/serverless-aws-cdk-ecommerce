@@ -1,0 +1,177 @@
+type Query {
+  me: Me @aws_cognito_user_pools
+  productGet(id: ID!): Product @aws_api_key @aws_cognito_user_pools
+  productList(filter: ProductFilterInput, limit: Int, nextToken: String): ProductConnection
+    @aws_api_key
+    @aws_cognito_user_pools
+  imageGet(id: ID!): Image @aws_api_key @aws_cognito_user_pools
+  imageList(filter: ImageFilterInput, limit: Int, nextToken: String): ImageConnection
+    @aws_api_key
+    @aws_cognito_user_pools
+  favoriteGet(id: ID!): Favorite @aws_api_key @aws_cognito_user_pools
+  favoriteList(filter: FavoriteFilterInput, limit: Int, nextToken: String): FavoriteConnection
+    @aws_api_key
+    @aws_cognito_user_pools
+  categoryList(filter: CategoryFilterInput, limit: Int, nextToken: String): CategoryConnection
+    @aws_api_key
+    @aws_cognito_user_pools
+}
+
+type Me @aws_cognito_user_pools {
+  user: User
+  favorites: [Favorite]
+}
+
+type User @aws_api_key @aws_cognito_user_pools {
+  id: ID
+  username: ID
+  profile: Profile
+}
+
+type Image @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  url: AWSURL
+  title: String
+  type: String
+}
+
+type ImageConnection @aws_api_key @aws_cognito_user_pools {
+  items: [Image]
+  nextToken: String
+}
+
+type Product @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  title: String
+  description: String
+  price: Float
+  category: Category
+  isFavorite: Boolean
+}
+
+type ProductConnection @aws_api_key @aws_cognito_user_pools {
+  items: [Product]
+  nextToken: String
+}
+
+type FavoriteConnection @aws_api_key @aws_cognito_user_pools {
+  items: [Favorite]
+  nextToken: String
+}
+
+type CategoryConnection @aws_api_key @aws_cognito_user_pools {
+  items: [Category]
+  nextToken: String
+}
+
+type Category @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  title: String
+}
+
+type Favorite @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  product: Product
+  user: User
+}
+
+type Profile @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  firstName: String
+  lastName: String
+}
+
+input ProductFilterInput {
+  id: IDFilterInput
+}
+
+input FavoriteFilterInput {
+  id: IDFilterInput
+}
+
+input CategoryFilterInput {
+  id: IDFilterInput
+}
+
+input ImageFilterInput {
+  id: IDFilterInput
+}
+
+input BooleanFilterInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input FloatFilterInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  contains: Float
+  notContains: Float
+  between: [Float]
+}
+
+input IDFilterInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+}
+
+input IntFilterInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  contains: Int
+  notContains: Int
+  between: [Int]
+}
+
+input StringFilterInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+}
+
+type Mutation @aws_api_key @aws_cognito_user_pools {
+  imageUpsert(input: ImageInput!): Image
+  imageDelete(id: ID!): Image
+  profileUpsert(input: ProfileInput!): Profile
+  profileDelete(id: ID!): Profile
+  productUpsert(input: ProductInput!): Product
+  productDelete(id: ID!): Product
+}
+
+input ImageInput {
+  id: ID
+}
+
+input ProductInput {
+  id: ID
+  title: String
+}
+
+input ProfileInput {
+  id: ID
+  firstName: String
+  lastName: String
+}

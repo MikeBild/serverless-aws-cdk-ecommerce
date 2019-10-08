@@ -1,0 +1,45 @@
+{
+  "private": true,
+  "name": "@serverless-aws-cdk-ecommerce/sales-app",
+  "version": "1.0.0",
+  "description": "Sales App",
+  "scripts": {
+    "clean": "rimraf .cache dist",
+    "develop": "rimraf .cache && parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "serve": "http-server-spa dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write \"src/**/*.{js,jsx}\""
+  },
+  "devDependencies": {
+    "http-server-spa": "1.3.0",
+    "parcel-bundler": "1.12.4",
+    "prettier": "^1.18.2",
+    "rimraf": "3.0.0"
+  },
+  "dependencies": {
+    "graphql-tag": "2.10.1",
+    "@apollo/react-hooks": "3.1.2",
+    "@babel/polyfill": "^7.6.0",
+    "@material-ui/core": "^4.5.0",
+    "@material-ui/icons": "4.4.3",
+    "@material-ui/lab": "^4.0.0-alpha.28",
+    "@serverless-aws-cdk-ecommerce/react-components": "1.0.0",
+    "apollo-cache-inmemory": "1.6.3",
+    "apollo-client": "2.6.4",
+    "apollo-link": "1.2.13",
+    "apollo-link-context": "1.0.19",
+    "apollo-link-error": "1.1.12",
+    "apollo-link-http": "1.5.16",
+    "aws-amplify": "1.1.40",
+    "aws-sdk": "2.544.0",
+    "graphql": "^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0",
+    "prop-types": "15.7.2",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-helmet": "5.2.1",
+    "react-router-dom": "5.1.2",
+    "roboto-fontface": "0.10.0",
+    "uuid": "3.3.3"
+  }
+}

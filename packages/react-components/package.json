@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "name": "@serverless-aws-cdk-ecommerce/react-components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "develop": "tsc --watch",
+    "build": "npm run clean && tsc",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.5",
+    "@types/react-router-dom": "^5.1.0",
+    "prettier": "^1.18.2",
+    "rimraf": "^3.0.0",
+    "typescript": "3.6.3"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "3.1.2",
+    "@material-ui/core": "4.5.0",
+    "apollo-cache-inmemory": "1.6.3",
+    "apollo-client": "2.6.4",
+    "apollo-link": "1.2.13",
+    "apollo-link-context": "1.0.19",
+    "apollo-link-error": "1.1.12",
+    "apollo-link-http": "1.5.16",
+    "aws-amplify": "1.1.40",
+    "react": "16.10.2",
+    "react-router-dom": "5.1.2"
+  }
+}

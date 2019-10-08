@@ -1,0 +1,14 @@
+[
+  {
+    "id": "book1",
+    "entity": "Product",
+    "title": "Book 1",
+    "category": "Book"
+  },
+  {
+    "id": "book2",
+    "entity": "Product",
+    "title": "Book 2",
+    "category": "Book"
+  }
+]
