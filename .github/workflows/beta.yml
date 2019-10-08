@@ -18,7 +18,7 @@ jobs:
       - name: Lerna Bootstrap
         uses: nuxt/actions-yarn@master
         with:
-          args: bootstrap
+          args: lerna
 
       - name: Lerna Build
         uses: nuxt/actions-yarn@master
