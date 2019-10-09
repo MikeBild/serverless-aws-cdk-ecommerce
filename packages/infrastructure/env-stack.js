@@ -8,7 +8,7 @@ module.exports = class Env extends Stack {
 
     const { CDK_STACK_NAME, CDK_STACK_ENV } = props
 
-    const graphQlApiKey = StringParameter.valueFromLookup(this, `CDK_`)
-    console.log({ graphQlApiKey })
+    const graphQlUrl = StringParameter.valueFromLookup(this, `/${CDK_STACK_NAME}/${CDK_STACK_ENV}/CDK_AWS_APPSYNC_URL`)
+    console.log({ graphQlUrl })
   }
 }
