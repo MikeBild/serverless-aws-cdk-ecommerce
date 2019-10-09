@@ -15,7 +15,7 @@ jobs:
         with:
           args: install
 
-      - name: Lerna Bootstrap
+      - name: Lerna
         uses: nuxt/actions-yarn@master
         with:
           args: lerna
@@ -33,7 +33,7 @@ jobs:
           CDK_STACK_NAME: ECommerce
           CDK_STACK_ENV: BETA
 
-      - name: Lerna Build
+      - name: Build
         uses: nuxt/actions-yarn@master
         with:
           args: build
