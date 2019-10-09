@@ -5,7 +5,7 @@ import { Typography, Grid, Card, CardActions, CardContent, CardMedia } from '@ma
 export function ProductCard({ item = {} }) {
   const {
     title,
-    subtitle,
+    price,
     description,
     logoUrl,
     color = '#FFF',
@@ -35,10 +35,10 @@ export function ProductCard({ item = {} }) {
             {title}
           </Typography>
           <Typography noWrap variant="caption">
-            {subtitle}
-          </Typography>
-          <Typography noWrap variant="body2">
             {description}
+          </Typography>
+          <Typography noWrap variant="h5" component="h2">
+            {price} €
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} />

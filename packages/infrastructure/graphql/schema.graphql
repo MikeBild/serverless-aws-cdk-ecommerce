@@ -216,3 +216,8 @@ input ProfileInput {
   firstName: String
   lastName: String
 }
+
+type Subscription @aws_api_key @aws_cognito_user_pools {
+  upsertedProduct: Product @aws_subscribe(mutations: ["productUpsert"])
+  deletedProduct: Product @aws_subscribe(mutations: ["productDelete"])
+}
