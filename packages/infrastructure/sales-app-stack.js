@@ -49,7 +49,7 @@ module.exports = class SalesApp extends Stack {
       `${CDK_STACK_NAME}-${CDK_STACK_ENV}-SalesApp-Distribution`,
       {
         aliasConfiguration: {
-          names: [`${CDK_SALES_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_SALES_APP_DOMAIN}`],
+          names: [`${CDK_SALES_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_SALES_APP_DOMAIN}`],
           acmCertRef: CDK_AWS_CLOUDFRONT_CERTIFICATE_ARN,
         },
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,

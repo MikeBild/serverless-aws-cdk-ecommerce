@@ -49,7 +49,7 @@ module.exports = class StorybookApp extends Stack {
       `${CDK_STACK_NAME}-${CDK_STACK_ENV}-StorybookApp-Distribution`,
       {
         aliasConfiguration: {
-          names: [`${CDK_STORYBOOK_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_STORYBOOK_APP_DOMAIN}`],
+          names: [`${CDK_STORYBOOK_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_STORYBOOK_APP_DOMAIN}`],
           acmCertRef: CDK_AWS_CLOUDFRONT_CERTIFICATE_ARN,
         },
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
