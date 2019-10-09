@@ -6,7 +6,14 @@ module.exports = class DynamoDBDataSource extends Construct {
   constructor(scope, id, props) {
     super(scope, id)
 
-    const { graphQlApi, appSyncServiceRole, deliveryPublishLambda, CDK_STACK_NAME, CDK_STACK_ENV } = props
+    const {
+      graphQlApi,
+      appSyncServiceRole,
+      deliveryPublishLambda,
+      CDK_STACK_NAME,
+      CDK_STACK_ENV,
+      CDK_AWS_REGION,
+    } = props
 
     const dynamoDBTable = new Table(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-DynamoDB-Table`, {
       partitionKey: { name: 'id', type: AttributeType.STRING },
@@ -14,6 +21,7 @@ module.exports = class DynamoDBDataSource extends Construct {
       tableName: `${CDK_STACK_NAME}-Table-${CDK_STACK_ENV}`,
       billingMode: BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.DESTROY,
+      timeToLiveAttribute: 'expire',
     })
 
     this.dynamoDBDataSource = new CfnDataSource(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-DynamoDB-DataSource`, {
@@ -23,7 +31,7 @@ module.exports = class DynamoDBDataSource extends Construct {
       serviceRoleArn: appSyncServiceRole.roleArn,
       dynamoDbConfig: {
         tableName: dynamoDBTable.tableName,
-        awsRegion: 'eu-central-1',
+        awsRegion: CDK_AWS_REGION,
         useCallerCredentials: false,
       },
     })

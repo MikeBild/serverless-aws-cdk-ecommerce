@@ -4,6 +4,29 @@
 ![badge](https://github.com/mikebild/serverless-aws-cdk-ecommerce/workflows/CICDProd/badge.svg)
 ![badge](https://github.com/mikebild/serverless-aws-cdk-ecommerce/workflows/CICDBeta/badge.svg)
 
+## System Environment
+
+- Serverless Backends using AWS
+
+  - Cognito (JWT Auth)
+  - S3 (Storage)
+  - CloudFront (CDN)
+  - AppSync (GraphQL)
+  - Lambda (Functions)
+  - Route53 (DNS)
+  - DynamoDB (NoSQL)
+  - SSM (Systems Manager)
+
+- Frontends using
+  - JavaScript (ECMA) and TypeScript
+  - React
+  - Apollo GraphQL
+  - Material-UI
+  - Parcel (Zero Config Bundler)
+  - Gatsby (Static Website Generator)
+  - Storybook (Component Development Playground)
+  - Lerna (Mono-Repo)
+
 ## Setup
 
 ```bash

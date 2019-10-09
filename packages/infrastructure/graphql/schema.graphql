@@ -15,6 +15,7 @@ type Query {
   categoryList(filter: CategoryFilterInput, limit: Int, nextToken: String): CategoryConnection
     @aws_api_key
     @aws_cognito_user_pools
+  cartGet(id: ID!): Cart @aws_api_key @aws_cognito_user_pools
 }
 
 type Me @aws_cognito_user_pools {
@@ -47,6 +48,11 @@ type Product @aws_api_key @aws_cognito_user_pools {
   price: Float
   category: Category
   isFavorite: Boolean
+}
+
+type Cart @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  items: [CartItem]
 }
 
 type ProductConnection @aws_api_key @aws_cognito_user_pools {
@@ -159,6 +165,18 @@ type Mutation @aws_api_key @aws_cognito_user_pools {
   profileDelete(id: ID!): Profile
   productUpsert(input: ProductInput!): Product
   productDelete(id: ID!): Product
+  addToCart(input: AddToCartInput!): Cart
+  removeFromCart(input: RemoveFromCartInput!): Cart
+}
+
+input AddToCartInput {
+  cartId: ID!
+  productId: ID!
+}
+
+input RemoveFromCartInput {
+  cartId: ID!
+  productId: ID!
 }
 
 input ImageInput {
