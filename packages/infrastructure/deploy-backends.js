@@ -5,7 +5,7 @@ const Cognito = require('./cognito-stack')
 const GraphQL = require('./graphql-stack')
 
 const app = new App({ autoSynth: true })
-const envVars = dotenv.config().parsed
+const envVars = { ...dotenv.config().parsed, ...process.env }
 const config = {
   ...envVars,
   env: { account: envVars.CDK_AWS_ACCOUNT, region: envVars.CDK_AWS_REGION },
