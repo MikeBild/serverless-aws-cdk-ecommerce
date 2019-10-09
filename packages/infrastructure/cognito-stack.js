@@ -45,9 +45,8 @@ module.exports = class Cognito extends Stack {
     })
 
     new StringParameter(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolId-Parameter`, {
-      parameterName: `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolId-Parameter`,
+      parameterName: `/${CDK_STACK_NAME}/${CDK_STACK_ENV}/CDK_AWS_COGNITO_USER_POOL_ID`,
       stringValue: this.userPool.userPoolId,
-      description: 'AWS_COGNITO_USER_POOL_ID',
     })
 
     const userPoolClient = new UserPoolClient(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient`, {
@@ -64,9 +63,8 @@ module.exports = class Cognito extends Stack {
     })
 
     new StringParameter(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolClientId-Parameter`, {
-      parameterName: `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolClientId-Parameter`,
+      parameterName: `/${CDK_STACK_NAME}/${CDK_STACK_ENV}/CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID`,
       stringValue: userPoolClient.userPoolClientId,
-      description: 'AWS_COGNITO_USER_POOL_WEBCLIENT_ID',
     })
 
     const defaultUser = new CfnUserPoolUser(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-DefaultUser`, {

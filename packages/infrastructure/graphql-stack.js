@@ -51,7 +51,7 @@ module.exports = class GraphQL extends Stack {
     })
 
     new StringParameter(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-GraphQL-GraphQlUrl-Parameter`, {
-      parameterName: `${CDK_STACK_NAME}-${CDK_STACK_ENV}-STACK_AWS_APPSYNC_URL`,
+      parameterName: `/${CDK_STACK_NAME}/${CDK_STACK_ENV}/CDK_AWS_APPSYNC_URL`,
       stringValue: this.graphQlApi.attrGraphQlUrl,
     })
 
@@ -68,7 +68,7 @@ module.exports = class GraphQL extends Stack {
     })
 
     new StringParameter(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-GraphQL-GraphQlApiKey-Parameter`, {
-      parameterName: `${CDK_STACK_NAME}-${CDK_STACK_ENV}-STACK_AWS_APPSYNC_APIKEY`,
+      parameterName: `/${CDK_STACK_NAME}/${CDK_STACK_ENV}/CDK_AWS_APPSYNC_APIKEY`,
       stringValue: this.graphqlApiKey.attrApiKey,
     })
 

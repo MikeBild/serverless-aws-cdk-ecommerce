@@ -11,7 +11,7 @@ const config = {
   env: { account: envVars.CDK_AWS_ACCOUNT, region: envVars.CDK_AWS_REGION },
 }
 
-new SSM(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-SSM`, { ...config })
+const ssm = new SSM(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-SSM`, { ...config })
 const { userPool } = new Cognito(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-Cognito`, { ...config })
 const { graphQlApi, graphqlApiKey } = new GraphQL(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-GraphQL`, {
   ...config,
