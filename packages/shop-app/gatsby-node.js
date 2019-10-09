@@ -24,10 +24,10 @@ exports.createPages = async ({ graphql, actions }) => {
 
   result.data.ecommerce.productList.products.forEach(({ id }) => {
     createPage({
-      path: `/product/${id}/`,
+      path: `/products/${id}/`,
       component: productPageTemplate,
       context: {
-        id: id,
+        id,
       },
     })
   })
