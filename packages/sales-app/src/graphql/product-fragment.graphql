@@ -1,4 +1,7 @@
 fragment ProductFragment on Product {
   id
   title
+  price
+  description
+  logoUrl
 }

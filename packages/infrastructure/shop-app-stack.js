@@ -26,7 +26,7 @@ module.exports = class ShopApp extends Stack {
     } = props
 
     this.shopAppBucket = new Bucket(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ShopApp-Bucket`, {
-      bucketName: `${CDK_SHOP_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_SHOP_APP_DOMAIN}`,
+      bucketName: `${CDK_SHOP_APP_HOSTNAME}.${CDK_SHOP_APP_DOMAIN}`,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html',
       publicReadAccess: true,
@@ -49,7 +49,7 @@ module.exports = class ShopApp extends Stack {
       `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ShopApp-Distribution`,
       {
         aliasConfiguration: {
-          names: [`${CDK_SHOP_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_SHOP_APP_DOMAIN}`],
+          names: [`${CDK_SHOP_APP_HOSTNAME}.${CDK_SHOP_APP_DOMAIN}`],
           acmCertRef: CDK_AWS_CLOUDFRONT_CERTIFICATE_ARN,
         },
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -88,7 +88,7 @@ module.exports = class ShopApp extends Stack {
 
     const aRecord = new ARecord(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ShopApp-DNSAlias`, {
       zone,
-      recordName: `${CDK_SHOP_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_SHOP_APP_DOMAIN}`,
+      recordName: `${CDK_SHOP_APP_HOSTNAME}.${CDK_SHOP_APP_DOMAIN}`,
       target: AddressRecordTarget.fromAlias(new CloudFrontTarget(distribution)),
     })
 

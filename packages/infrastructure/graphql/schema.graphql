@@ -15,6 +15,7 @@ type Query {
   categoryList(filter: CategoryFilterInput, limit: Int, nextToken: String): CategoryConnection
     @aws_api_key
     @aws_cognito_user_pools
+  cartGet(id: ID!): Cart @aws_api_key @aws_cognito_user_pools
 }
 
 type Me @aws_cognito_user_pools {
@@ -44,9 +45,23 @@ type Product @aws_api_key @aws_cognito_user_pools {
   id: ID!
   title: String
   description: String
+  logoUrl: String
   price: Float
   category: Category
   isFavorite: Boolean
+}
+
+type Cart @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  products: [Product]
+}
+
+type Order @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+}
+
+type Invoice @aws_api_key @aws_cognito_user_pools {
+  id: ID!
 }
 
 type ProductConnection @aws_api_key @aws_cognito_user_pools {
@@ -159,6 +174,28 @@ type Mutation @aws_api_key @aws_cognito_user_pools {
   profileDelete(id: ID!): Profile
   productUpsert(input: ProductInput!): Product
   productDelete(id: ID!): Product
+  addToCart(input: AddToCartInput!): Cart
+  removeFromCart(input: RemoveFromCartInput!): Cart
+  checkoutCart(input: CheckoutCartInput!): Order
+  payForOrder(input: PayForOrderInput!): Invoice
+}
+
+input CheckoutCartInput {
+  cartId: ID!
+}
+
+input PayForOrderInput {
+  orderId: ID!
+}
+
+input AddToCartInput {
+  cartId: ID!
+  productId: ID!
+}
+
+input RemoveFromCartInput {
+  cartId: ID!
+  productId: ID!
 }
 
 input ImageInput {
@@ -168,10 +205,19 @@ input ImageInput {
 input ProductInput {
   id: ID
   title: String
+  price: Float
+  description: String
+  logoUrl: String
+  categoryId: ID
 }
 
 input ProfileInput {
   id: ID
   firstName: String
   lastName: String
+}
+
+type Subscription @aws_api_key @aws_cognito_user_pools {
+  upsertedProduct: Product @aws_subscribe(mutations: ["productUpsert"])
+  deletedProduct: Product @aws_subscribe(mutations: ["productDelete"])
 }

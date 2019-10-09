@@ -15,6 +15,9 @@ const LIST = graphql(`
       products: items {
         id
         title
+        price
+        description
+        logoUrl
       }
     }
   }

@@ -16,22 +16,11 @@ export function ProductForm({
   onDelete = () => {},
 }) {
   const classes = useStyles()
-  const {
-    id,
-    title,
-    subtitle,
-    isInactive = false,
-    inactiveReason = '...',
-    description,
-    logoUrl,
-    videoUrl,
-    category: { id: categoryId } = {},
-  } = value
+  const { id, title, price, description, logoUrl, category: { id: categoryId } = {} } = value
   const titleRef = useRef()
-  const subtitleRef = useRef()
+  const priceRef = useRef()
   const descriptionRef = useRef()
   const logoUrlRef = useRef()
-  const videoUrlRef = useRef()
   const [newCategoryId, setNewCategoryId] = useState(categoryId)
   const hasId = Boolean(id)
 
@@ -66,10 +55,11 @@ export function ProductForm({
         <TextField
           variant="outlined"
           margin="normal"
+          type="number"
           fullWidth
-          label="Untertitel"
-          defaultValue={subtitle}
-          inputRef={subtitleRef}
+          label="Preis"
+          defaultValue={price}
+          inputRef={priceRef}
         />
         <TextField
           variant="outlined"
@@ -96,14 +86,6 @@ export function ProductForm({
             </IconButton>
           </div>
         </div>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          label="Video URL"
-          defaultValue={videoUrl}
-          inputRef={videoUrlRef}
-        />
       </DialogContent>
       <DialogActions className={classes.dialogActions}>
         <Button onClick={onCancel} color="primary" autoFocus>
@@ -114,14 +96,11 @@ export function ProductForm({
             onClick={() =>
               onEdit({
                 id,
-                inactiveReason,
-                isInactive,
-                categoryId: newCategoryId,
+                title: titleRef.current.value,
+                price: priceRef.current.value,
                 description: descriptionRef.current.value,
                 logoUrl: logoUrlRef.current.value,
-                subtitle: subtitleRef.current.value,
-                title: titleRef.current.value,
-                videoUrl: videoUrlRef.current.value,
+                categoryId: newCategoryId,
               })
             }
             color="primary"
@@ -132,14 +111,11 @@ export function ProductForm({
           <Button
             onClick={() =>
               onAdd({
-                inactiveReason,
-                isInactive,
-                categoryId: newCategoryId,
+                title: titleRef.current.value,
+                price: priceRef.current.value,
                 description: descriptionRef.current.value,
                 logoUrl: logoUrlRef.current.value,
-                subtitle: subtitleRef.current.value,
-                title: titleRef.current.value,
-                videoUrl: videoUrlRef.current.value,
+                categoryId: newCategoryId,
               })
             }
             color="primary"

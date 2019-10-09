@@ -9,11 +9,9 @@ export function ProductCard({ item = {}, onEdit = () => {}, onDelete = () => {} 
   const {
     id,
     title,
-    subtitle,
     description,
+    price,
     logoUrl,
-    videoUrl,
-    isInactive = false,
     color = '#FFF',
     category: { title: categoryTitle, color: categoryColor } = {},
   } = item
@@ -51,11 +49,11 @@ export function ProductCard({ item = {}, onEdit = () => {}, onDelete = () => {} 
           <Typography gutterBottom variant="h5" component="h2">
             {title}
           </Typography>
-          <Typography noWrap variant="caption">
-            {subtitle}
-          </Typography>
           <Typography noWrap variant="body2">
             {description}
+          </Typography>
+          <Typography noWrap variant="h5" component="h2">
+            {price} €
           </Typography>
         </CardContent>
         <CardActions className={classes.actions}>

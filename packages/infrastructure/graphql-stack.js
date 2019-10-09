@@ -15,7 +15,7 @@ module.exports = class GraphQL extends Stack {
   constructor(parent, id, props) {
     super(parent, id, props)
 
-    const { CDK_STACK_NAME, CDK_STACK_ENV, userPool, deliveryPublishLambda } = props
+    const { CDK_STACK_NAME, CDK_STACK_ENV, CDK_AWS_REGION, userPool, deliveryPublishLambda } = props
     const definition = readFileSync(join(__dirname, 'graphql', 'schema.graphql')).toString()
 
     const logsServiceRole = new Role(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-GraphQLLogsRole`, {
@@ -35,7 +35,7 @@ module.exports = class GraphQL extends Stack {
         {
           authenticationType: 'AMAZON_COGNITO_USER_POOLS',
           userPoolConfig: {
-            awsRegion: 'eu-central-1',
+            awsRegion: CDK_AWS_REGION,
             userPoolId: userPool.userPoolId,
           },
         },
@@ -109,6 +109,7 @@ module.exports = class GraphQL extends Stack {
       {
         CDK_STACK_NAME,
         CDK_STACK_ENV,
+        CDK_AWS_REGION,
         appSyncServiceRole,
         graphQlApi: this.graphQlApi,
         deliveryPublishLambda,

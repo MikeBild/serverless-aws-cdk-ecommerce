@@ -3,7 +3,9 @@ import { Link, useHistory } from 'react-router-dom'
 import { Layout } from '@serverless-aws-cdk-ecommerce/react-components'
 import { makeStyles } from '@material-ui/core/styles'
 import { Typography, Grid, Container, ListItem, ListItemIcon, ListItemText, Divider } from '@material-ui/core'
-import { EventAvailable as EventAvailableIcon, Apps as AppsIcon } from '@material-ui/icons'
+
+import AppsIcon from '@material-ui/icons/Apps'
+import EventAvailableIcon from '@material-ui/icons/EventAvailable'
 
 export function DashboardPage() {
   const classes = useStyles()
