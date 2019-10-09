@@ -13,7 +13,20 @@ module.exports = {
     siteUrl: 'https://ecommerce-shop.mikebild.com',
   },
   pathPrefix: '',
+
   plugins: [
+    {
+      resolve: 'gatsby-plugin-env-variables',
+      options: {
+        whitelist: [
+          'CDK_AWS_REGION',
+          'CDK_AWS_COGNITO_USER_POOL_ID',
+          'CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID',
+          'CDK_AWS_APPSYNC_URL',
+          'CDK_AWS_APPSYNC_APIKEY',
+        ],
+      },
+    },
     {
       resolve: 'gatsby-plugin-eslint',
       options: {
