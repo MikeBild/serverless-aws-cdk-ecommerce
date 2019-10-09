@@ -25,8 +25,10 @@ jobs:
         with:
           args: deploy --require-approval never --app packages/infrastructure/deploy-backends.js "$STACK_NAME-*"
         env:
+          AWS_REGION: eu-central-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CDK_AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
           CDK_AWS_REGION: eu-central-1
           CDK_STACK_NAME: ECommerce
           CDK_STACK_ENV: PROD
@@ -41,8 +43,10 @@ jobs:
         with:
           args: deploy --require-approval never --app packages/infrastructure/deploy-frontends.js "$STACK_NAME-*"
         env:
+          AWS_REGION: eu-central-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CDK_AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
           CDK_AWS_REGION: eu-central-1
           CDK_STACK_NAME: ECommerce
           CDK_STACK_ENV: PROD
