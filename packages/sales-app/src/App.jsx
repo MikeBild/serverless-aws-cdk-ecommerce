@@ -10,16 +10,16 @@ import { PasswordPage } from './pages/PasswordPage'
 
 export function App() {
   const history = useHistory()
+  const config = {
+    userPoolId: `${process.env.CDK_AWS_COGNITO_USER_POOL_ID}`,
+    userPoolWebClientId: `${process.env.CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID}`,
+    graphQlUrl: `${process.env.CDK_AWS_APPSYNC_URL}`,
+  }
+
   return (
     <AppProvider
-      config={{
-        region: `${process.env.CDK_AWS_REGION}`,
-        userPoolId: `${process.env.CDK_AWS_COGNITO_USER_POOL_ID}`,
-        userPoolWebClientId: `${process.env.CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID}`,
-        graphQlUrl: `${process.env.CDK_AWS_APPSYNC_URL}`,
-      }}
+      config={config}
       onLinkError={({ networkError, graphQLErrors }) => {
-        console.log({ networkError })
         if (networkError && networkError.statusCode === 401) {
           return history.push('/signin')
         }

@@ -7,13 +7,11 @@ import { AppProvider } from '@serverless-aws-cdk-ecommerce/react-components'
 import theme from './theme'
 
 const config = {
-  region: process.env.CDK_AWS_REGION,
   userPoolId: process.env.CDK_AWS_COGNITO_USER_POOL_ID,
   userPoolWebClientId: process.env.CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID,
   graphQlUrl: process.env.CDK_AWS_APPSYNC_URL,
   graphQlApiKey: process.env.CDK_AWS_APPSYNC_APIKEY,
 }
-
 export default ({ element }) => (
   <ThemeProvider theme={theme}>
     <CssBaseline />

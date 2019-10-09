@@ -2,7 +2,7 @@ const fetch = require('isomorphic-fetch')
 const { createHttpLink } = require('apollo-link-http')
 
 require('dotenv').config({
-  path: `.env.${process.env.CDK_NODE_ENV}`,
+  path: `.env.${process.env.NODE_ENV}`,
 })
 
 module.exports = {
@@ -19,7 +19,6 @@ module.exports = {
       resolve: 'gatsby-plugin-env-variables',
       options: {
         whitelist: [
-          'CDK_AWS_REGION',
           'CDK_AWS_COGNITO_USER_POOL_ID',
           'CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID',
           'CDK_AWS_APPSYNC_URL',
