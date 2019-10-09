@@ -11,7 +11,7 @@ module.exports = class DynamoDBDataSource extends Construct {
     const dynamoDBTable = new Table(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-DynamoDB-Table`, {
       partitionKey: { name: 'id', type: AttributeType.STRING },
       sortKey: { name: 'entity', type: AttributeType.STRING },
-      tableName: 'ECommerceTable',
+      tableName: `${CDK_STACK_NAME}-Table-${CDK_STACK_ENV}`,
       billingMode: BillingMode.PAY_PER_REQUEST,
       removalPolicy: RemovalPolicy.DESTROY,
     })
