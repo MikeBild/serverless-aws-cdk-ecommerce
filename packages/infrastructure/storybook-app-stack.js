@@ -26,7 +26,7 @@ module.exports = class StorybookApp extends Stack {
     } = props
 
     this.storybookAppBucket = new Bucket(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-StorybookApp-Bucket`, {
-      bucketName: `${CDK_STORYBOOK_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_STORYBOOK_APP_DOMAIN}`,
+      bucketName: `${CDK_STORYBOOK_APP_HOSTNAME}.${CDK_STORYBOOK_APP_DOMAIN}`,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html',
       publicReadAccess: true,
@@ -49,7 +49,7 @@ module.exports = class StorybookApp extends Stack {
       `${CDK_STACK_NAME}-${CDK_STACK_ENV}-StorybookApp-Distribution`,
       {
         aliasConfiguration: {
-          names: [`${CDK_STORYBOOK_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_STORYBOOK_APP_DOMAIN}`],
+          names: [`${CDK_STORYBOOK_APP_HOSTNAME}.${CDK_STORYBOOK_APP_DOMAIN}`],
           acmCertRef: CDK_AWS_CLOUDFRONT_CERTIFICATE_ARN,
         },
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -88,7 +88,7 @@ module.exports = class StorybookApp extends Stack {
 
     const aRecord = new ARecord(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-StorybookApp-DNSAlias`, {
       zone,
-      recordName: `${CDK_STORYBOOK_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_STORYBOOK_APP_DOMAIN}`,
+      recordName: `${CDK_STORYBOOK_APP_HOSTNAME}.${CDK_STORYBOOK_APP_DOMAIN}`,
       target: AddressRecordTarget.fromAlias(new CloudFrontTarget(distribution)),
     })
 

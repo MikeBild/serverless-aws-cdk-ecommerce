@@ -26,7 +26,7 @@ module.exports = class SalesApp extends Stack {
     } = props
 
     this.salesAppBucket = new Bucket(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-SalesApp-Bucket`, {
-      bucketName: `${CDK_SALES_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_SALES_APP_DOMAIN}`,
+      bucketName: `${CDK_SALES_APP_HOSTNAME}.${CDK_SALES_APP_DOMAIN}`,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html',
       publicReadAccess: true,
@@ -49,7 +49,7 @@ module.exports = class SalesApp extends Stack {
       `${CDK_STACK_NAME}-${CDK_STACK_ENV}-SalesApp-Distribution`,
       {
         aliasConfiguration: {
-          names: [`${CDK_SALES_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_SALES_APP_DOMAIN}`],
+          names: [`${CDK_SALES_APP_HOSTNAME}.${CDK_SALES_APP_DOMAIN}`],
           acmCertRef: CDK_AWS_CLOUDFRONT_CERTIFICATE_ARN,
         },
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
@@ -88,7 +88,7 @@ module.exports = class SalesApp extends Stack {
 
     const aRecord = new ARecord(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-SalesApp-DNSAlias`, {
       zone,
-      recordName: `${CDK_SALES_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_SALES_APP_DOMAIN}`,
+      recordName: `${CDK_SALES_APP_HOSTNAME}.${CDK_SALES_APP_DOMAIN}`,
       target: AddressRecordTarget.fromAlias(new CloudFrontTarget(distribution)),
     })
 
