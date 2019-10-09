@@ -1,8 +1,8 @@
 # AWS Serverless Infrastructure as Code
 
-## Deploy multiple environments
+## Deploy environments
 
-### BETA
+### Setup environment "Demo"
 
 **Configure** the AWS SSM parameter store
 
@@ -10,12 +10,12 @@
 
 ```
 CDK_STACK_NAME=
-CDK_STACK_ENV=
+CDK_STACK_ENV=Demo
 CDK_AWS_REGION=eu-central-1
 CDK_AWS_ACCOUNT=
 ```
 
-**.env.BETA**
+**.env.Demo**
 
 ```
 CDK_AWS_ROUTE53_HOSTED_ZONEID=
@@ -40,17 +40,17 @@ CDK_E2E_PASSWORD=
 **Deploy Configuration**
 
 ```
-CDK_STACK_ENV=BETA yarn deploy:configs "ECommerce-*"
+CDK_STACK_ENV=Demo yarn deploy:configs "ECommerce-*"
 ```
 
 **Deploy Backends**
 
 ```
-CDK_STACK_ENV=BETA yarn deploy:backends "ECommerce-*"
+yarn deploy:backends "ECommerce-*"
 ```
 
 **Deploy Frontends**
 
 ```
-CDK_STACK_ENV=BETA yarn deploy:frontends "ECommerce-*"
+yarn deploy:frontends "ECommerce-*"
 ```
