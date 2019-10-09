@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "lerna": "lerna clean --yes && lerna bootstrap",
+    "lerna": "lerna clean --yes && lerna link",
     "develop": "lerna run develop --stream",
     "clean": "lerna run clean",
     "build": "npm run clean && lerna run build --stream",

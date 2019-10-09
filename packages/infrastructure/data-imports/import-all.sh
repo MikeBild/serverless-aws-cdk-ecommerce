@@ -1,2 +1,4 @@
-./import.sh ECommerceTable profile.json
-./import.sh ECommerceTable product.json
+TABLE=$1
+
+./import.sh $TABLE profile.json
+./import.sh $TABLE product.json
