@@ -6,8 +6,8 @@
   "scripts": {
     "clean": "rimraf storybook-static",
     "develop": "start-storybook -p 6006",
-    "build": "build-storybook",
-    "serve": "http-server-spa storybook-static",
+    "build": "ssmenv -- build-storybook",
+    "serve": "http-server-spa storybook-static index.html 8083",
     "format": "prettier --write \"**/*.{js,jsx}\""
   },
   "dependencies": {
@@ -22,7 +22,8 @@
     "@storybook/react": "5.2.3",
     "babel-loader": "8.0.6",
     "http-server-spa": "1.3.0",
-    "prettier": "^1.18.2",
-    "rimraf": "3.0.0"
+    "prettier": "1.18.2",
+    "rimraf": "3.0.0",
+    "@mikebild/ssmenv-cli": "1.0.0"
   }
 }

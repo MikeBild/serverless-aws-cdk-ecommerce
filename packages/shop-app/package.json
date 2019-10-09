@@ -6,7 +6,7 @@
     "@material-ui/core": "4.5.0",
     "@material-ui/icons": "4.4.3",
     "@serverless-aws-cdk-ecommerce/react-components": "1.0.0",
-    "gatsby": "2.15.33",
+    "gatsby": "2.15.34",
     "isomorphic-fetch": "^2.2.1",
     "localstorage-polyfill": "^1.0.1",
     "react": "16.10.2",
@@ -15,6 +15,7 @@
     "roboto-fontface": "0.10.0"
   },
   "devDependencies": {
+    "@mikebild/ssmenv-cli": "1.0.0",
     "@testing-library/react": "9.3.0",
     "babel-eslint": "10.0.3",
     "dotenv": "8.1.0",
@@ -48,8 +49,8 @@
     "lint": "eslint 'src/**/*.{js,jsx}' --quiet",
     "clean": "rimraf .cache public",
     "develop": "rimraf .cache && gatsby develop",
-    "build": "npm run clean && gatsby build",
-    "serve": "http-server-spa public",
+    "build": "npm run clean && ssmenv -- gatsby build",
+    "serve": "http-server-spa public index.html 8082",
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
