@@ -26,7 +26,7 @@ module.exports = class SalesApp extends Stack {
     } = props
 
     this.salesAppBucket = new Bucket(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-SalesApp-Bucket`, {
-      bucketName: `${CDK_SALES_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_SALES_APP_DOMAIN}`,
+      bucketName: `${CDK_SALES_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_SALES_APP_DOMAIN}`,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html',
       publicReadAccess: true,

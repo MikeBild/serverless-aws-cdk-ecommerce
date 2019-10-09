@@ -26,7 +26,7 @@ module.exports = class ShopApp extends Stack {
     } = props
 
     this.shopAppBucket = new Bucket(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ShopApp-Bucket`, {
-      bucketName: `${CDK_SHOP_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_SHOP_APP_DOMAIN}`,
+      bucketName: `${CDK_SHOP_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_SHOP_APP_DOMAIN}`,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html',
       publicReadAccess: true,

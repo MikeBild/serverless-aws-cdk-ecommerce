@@ -26,7 +26,7 @@ module.exports = class StorybookApp extends Stack {
     } = props
 
     this.storybookAppBucket = new Bucket(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-StorybookApp-Bucket`, {
-      bucketName: `${CDK_STORYBOOK_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_STORYBOOK_APP_DOMAIN}`,
+      bucketName: `${CDK_STORYBOOK_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_STORYBOOK_APP_DOMAIN}`,
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: 'index.html',
       publicReadAccess: true,
