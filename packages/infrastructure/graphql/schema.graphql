@@ -45,6 +45,7 @@ type Product @aws_api_key @aws_cognito_user_pools {
   id: ID!
   title: String
   description: String
+  logoUrl: String
   price: Float
   category: Category
   isFavorite: Boolean
@@ -204,6 +205,10 @@ input ImageInput {
 input ProductInput {
   id: ID
   title: String
+  price: Float
+  description: String
+  logoUrl: String
+  categoryId: ID
 }
 
 input ProfileInput {

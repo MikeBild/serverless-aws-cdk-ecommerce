@@ -18,9 +18,9 @@ interface TopbarProps {
 export function Topbar({
   renderSearchInput = () => <div style={{ height: 40 }} />,
   renderFilterInput = () => <div style={{ height: 40 }} />,
-  onAddClick = () => {},
-  onPublishClick = () => {},
-  onDeleteClick = () => {},
+  onAddClick,
+  onPublishClick,
+  onDeleteClick,
 }: TopbarProps) {
   const classes = useStyles()
   const [isOpen, setIsOpen] = useState(false)

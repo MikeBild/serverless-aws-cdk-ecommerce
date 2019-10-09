@@ -3,7 +3,9 @@ import { Link, useHistory } from 'react-router-dom'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
 import { List, ListItem, ListItemText, ListItemIcon, Container, Grid, Divider } from '@material-ui/core'
-import { Refresh as RefreshIcon, EventAvailable as EventAvailableIcon, Apps as AppsIcon } from '@material-ui/icons'
+import RefreshIcon from '@material-ui/icons/Refresh'
+import AppsIcon from '@material-ui/icons/Apps'
+import EventAvailableIcon from '@material-ui/icons/EventAvailable'
 import {
   Layout,
   Loading,
