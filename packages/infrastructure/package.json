@@ -5,12 +5,12 @@
   "description": "Serverless AWS-CDK Infrastructure as Code",
   "scripts": {
     "clean": "rimraf cdk.out",
-    "deploy:configs": "dotenv -- cdk deploy --json --require-approval never --app deploy-configs.js",
-    "deploy:backends": "dotenv -- cdk deploy --json --require-approval never --app deploy-backends.js",
-    "deploy:frontends": "dotenv -- cdk deploy --require-approval never --app deploy-frontends.js",
-    "destroy:configs": "dotenv -- cdk destroy --require-approval never --app deploy-configs.js",
-    "destroy:backends": "dotenv -- cdk destroy --require-approval never --app deploy-backends.js",
-    "destroy:frontends": "dotenv -- cdk destroy --require-approval never --app deploy-frontends.js",
+    "deploy:configs": "cdk deploy --require-approval never --app deploy-configs.js",
+    "deploy:backends": "cdk deploy --require-approval never --app deploy-backends.js",
+    "deploy:frontends": "cdk deploy --require-approval never --app deploy-frontends.js",
+    "destroy:configs": "cdk destroy --require-approval never --app deploy-configs.js",
+    "destroy:backends": "cdk destroy --require-approval never --app deploy-backends.js",
+    "destroy:frontends": "cdk destroy --require-approval never --app deploy-frontends.js",
     "format": "prettier --write \"**/*.{js,jsx}\""
   },
   "devDependencies": {

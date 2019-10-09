@@ -7,7 +7,7 @@ const ShopApp = require('./shop-app-stack')
 const StorybookApp = require('./storybook-app-stack')
 
 const app = new App({ autoSynth: true })
-const envVars = dotenv.config().parsed
+const envVars = { ...dotenv.config().parsed, ...process.env }
 const config = {
   ...envVars,
   env: { account: envVars.CDK_AWS_ACCOUNT, region: envVars.CDK_AWS_REGION },
