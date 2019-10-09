@@ -4,7 +4,9 @@ import { ApolloClient } from 'apollo-client'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { HttpLink } from 'apollo-link-http'
 import { onError, ErrorResponse } from 'apollo-link-error'
-import { ApolloLink } from 'apollo-link'
+import { ApolloLink, split } from 'apollo-link'
+import { WebSocketLink } from 'apollo-link-ws'
+import { getMainDefinition } from 'apollo-utilities'
 import { setContext } from 'apollo-link-context'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { CognitoUser } from '@aws-amplify/auth'
@@ -26,6 +28,7 @@ interface AppConfig {
 interface AppProviderProps {
   children: JSX.Element[] | JSX.Element
   config: AppConfig
+  shouldEnableWebSockets?: boolean
   onLinkError: (error: ErrorResponse) => void
 }
 
@@ -38,6 +41,7 @@ const AppContext: React.Context<AppContext> = createContext({
 
 function AppProvider({
   children,
+  shouldEnableWebSockets = false,
   config: { region, userPoolId, userPoolWebClientId, graphQlUrl, graphQlApiKey },
   onLinkError = _ => {},
 }: AppProviderProps): JSX.Element {
@@ -51,6 +55,21 @@ function AppProvider({
 
   const [user, setUser] = useState<CognitoUser>()
   const httpLink = new HttpLink({ uri: graphQlUrl })
+  const wsLink = new WebSocketLink({
+    uri: graphQlUrl.replace('https://', 'wss://').replace('http://', 'ws://'),
+    options: {
+      reconnect: true,
+      lazy: true,
+    },
+  })
+  const link = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query)
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+    },
+    wsLink,
+    httpLink
+  )
   const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem('token')
     return token
@@ -67,14 +86,13 @@ function AppProvider({
           },
         }
   })
-
   const errorLink = onError(error => {
     console.error(error)
     onLinkError(error)
   })
 
   const client = new ApolloClient({
-    link: ApolloLink.from([errorLink, authLink, httpLink]),
+    link: ApolloLink.from([errorLink, authLink, shouldEnableWebSockets ? link : httpLink]),
     cache: new InMemoryCache(),
   })
 
