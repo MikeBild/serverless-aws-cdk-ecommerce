@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { Link as RouterLink, navigate } from 'gatsby'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useSubscription } from '@apollo/react-hooks'
 import graphql from 'graphql-tag'
 import { makeStyles } from '@material-ui/core/styles'
 import { Container, Grid, IconButton } from '@material-ui/core'
@@ -23,9 +23,22 @@ const LIST = graphql(`
   }
 `)
 
+const UPSERTED = graphql(`
+  subscription UpsertedProduct {
+    upsertedProduct {
+      id
+      title
+      description
+      logoUrl
+      price
+    }
+  }
+`)
+
 export default function Products() {
   const classes = useStyles()
   const { loading, data: { productList: { products = [] } = {} } = {} } = useQuery(LIST)
+  const { data: { upsertedProduct } = {} } = useSubscription(UPSERTED)
 
   return (
     <CheckAuth isProtected={false}>

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "cart1",
+    "entity": "Cart",
+    "productsId": ["book1", "book2"]
+  },
+  {
+    "id": "book2",
+    "entity": "Cart",
+    "productsId": ["book1"]
+  }
+]
