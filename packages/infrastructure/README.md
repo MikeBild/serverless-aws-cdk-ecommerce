@@ -37,8 +37,20 @@ CDK_E2E_USERNAME=
 CDK_E2E_PASSWORD=
 ```
 
-**Deploy configuration** to AWS SSM parameter store
+**Deploy Configuration**
 
 ```
 CDK_STACK_ENV=BETA yarn deploy:configs "ECommerce-*"
+```
+
+**Deploy Backends**
+
+```
+CDK_STACK_ENV=BETA yarn deploy:backends "ECommerce-*"
+```
+
+**Deploy Frontends**
+
+```
+CDK_STACK_ENV=BETA yarn deploy:frontends "ECommerce-*"
 ```
