@@ -1,6 +1,6 @@
 const dotenv = require('dotenv')
 const { App } = require('@aws-cdk/core')
-const Env = require('./env-stack')
+const Configs = require('./configs-stack')
 const E2ETests = require('./e2e-stack')
 const SalesApp = require('./sales-app-stack')
 const ShopApp = require('./shop-app-stack')
@@ -13,8 +13,8 @@ const config = {
   env: { account: envVars.CDK_AWS_ACCOUNT, region: envVars.CDK_AWS_REGION },
 }
 
-new Env(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-Env`, { ...config })
-new E2ETests(app, `${config.CDL_STACK_NAME}-${config.CDK_STACK_ENV}-E2ETests`, { ...config })
-new SalesApp(app, `${config.CDL_STACK_NAME}-${config.CDK_STACK_ENV}-SalesApp`, { ...config })
-new ShopApp(app, `${config.CDL_STACK_NAME}-${config.CDK_STACK_ENV}-ShopApp`, { ...config })
-new StorybookApp(app, `${config.CDL_STACK_NAME}-${config.CDK_STACK_ENV}-StorybookApp`, { ...config })
+const { configs } = new Configs(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-Configs`, { ...config })
+new E2ETests(app, `${config.CDL_STACK_NAME}-${config.CDK_STACK_ENV}-E2ETests`, { ...config, ...configs })
+new SalesApp(app, `${config.CDL_STACK_NAME}-${config.CDK_STACK_ENV}-SalesApp`, { ...config, ...configs })
+new ShopApp(app, `${config.CDL_STACK_NAME}-${config.CDK_STACK_ENV}-ShopApp`, { ...config, ...configs })
+new StorybookApp(app, `${config.CDL_STACK_NAME}-${config.CDK_STACK_ENV}-StorybookApp`, { ...config, ...configs })

@@ -1,6 +1,6 @@
 const dotenv = require('dotenv')
 const { App, Stack } = require('@aws-cdk/core')
-const SSM = require('./ssm-stack')
+const Configs = require('./configs-stack')
 const Cognito = require('./cognito-stack')
 const GraphQL = require('./graphql-stack')
 
@@ -11,9 +11,13 @@ const config = {
   env: { account: envVars.CDK_AWS_ACCOUNT, region: envVars.CDK_AWS_REGION },
 }
 
-const ssm = new SSM(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-SSM`, { ...config })
-const { userPool } = new Cognito(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-Cognito`, { ...config })
+const { configs } = new Configs(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-Configs`, { ...config })
+const { userPool } = new Cognito(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-Cognito`, {
+  ...config,
+  ...configs,
+})
 const { graphQlApi, graphqlApiKey } = new GraphQL(app, `${config.CDK_STACK_NAME}-${config.CDK_STACK_ENV}-GraphQL`, {
   ...config,
+  ...configs,
   userPool,
 })
