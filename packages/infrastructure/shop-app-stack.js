@@ -88,7 +88,7 @@ module.exports = class ShopApp extends Stack {
 
     const aRecord = new ARecord(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ShopApp-DNSAlias`, {
       zone,
-      recordName: `${CDK_SHOP_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_SHOP_APP_DOMAIN}`,
+      recordName: `${CDK_SHOP_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_SHOP_APP_DOMAIN}`,
       target: AddressRecordTarget.fromAlias(new CloudFrontTarget(distribution)),
     })
 

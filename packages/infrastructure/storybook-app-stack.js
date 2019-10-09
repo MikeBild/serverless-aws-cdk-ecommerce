@@ -88,7 +88,7 @@ module.exports = class StorybookApp extends Stack {
 
     const aRecord = new ARecord(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-StorybookApp-DNSAlias`, {
       zone,
-      recordName: `${CDK_STORYBOOK_APP_HOSTNAME}-${CDK_STACK_ENV}.${CDK_STORYBOOK_APP_DOMAIN}`,
+      recordName: `${CDK_STORYBOOK_APP_HOSTNAME}-${CDK_STACK_ENV.toLowerCase()}.${CDK_STORYBOOK_APP_DOMAIN}`,
       target: AddressRecordTarget.fromAlias(new CloudFrontTarget(distribution)),
     })
 
