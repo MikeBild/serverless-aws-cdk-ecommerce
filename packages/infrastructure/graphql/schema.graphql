@@ -52,7 +52,15 @@ type Product @aws_api_key @aws_cognito_user_pools {
 
 type Cart @aws_api_key @aws_cognito_user_pools {
   id: ID!
-  items: [CartItem]
+  products: [Product]
+}
+
+type Order @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+}
+
+type Invoice @aws_api_key @aws_cognito_user_pools {
+  id: ID!
 }
 
 type ProductConnection @aws_api_key @aws_cognito_user_pools {
@@ -167,6 +175,16 @@ type Mutation @aws_api_key @aws_cognito_user_pools {
   productDelete(id: ID!): Product
   addToCart(input: AddToCartInput!): Cart
   removeFromCart(input: RemoveFromCartInput!): Cart
+  checkoutCart(input: CheckoutCartInput!): Order
+  payForOrder(input: PayForOrderInput!): Invoice
+}
+
+input CheckoutCartInput {
+  cartId: ID!
+}
+
+input PayForOrderInput {
+  orderId: ID!
 }
 
 input AddToCartInput {
