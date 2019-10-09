@@ -2,11 +2,13 @@
   "private": true,
   "name": "@serverless-aws-cdk-ecommerce/infrastructure",
   "version": "1.0.0",
-  "description": "Serverless Infrastructure as Code",
+  "description": "Serverless AWS-CDK Infrastructure as Code",
   "scripts": {
     "clean": "rimraf cdk.out",
-    "deploy": "dotenv -- cdk deploy --require-approval never --app app.js",
-    "destroy": "dotenv -- cdk destroy --app app.js",
+    "deploy:backends": "dotenv -- cdk deploy --json --require-approval never --app deploy-backends.js",
+    "deploy:frontends": "dotenv -- cdk deploy --require-approval never --app deploy-frontends.js",
+    "destroy:backends": "dotenv -- cdk destroy --require-approval never --app deploy-backends.js",
+    "destroy:frontends": "dotenv -- cdk destroy --require-approval never --app deploy-frontends.js",
     "format": "prettier --write \"**/*.{js,jsx}\""
   },
   "devDependencies": {
@@ -23,9 +25,9 @@
     "@aws-cdk/aws-route53-targets": "1.12.0",
     "@aws-cdk/aws-s3": "1.12.0",
     "@aws-cdk/aws-s3-deployment": "1.11.0",
+    "@aws-cdk/aws-ssm": "1.12.0",
     "@aws-cdk/core": "1.12.0",
     "aws-cdk": "1.12.0",
-    "aws-sdk": "2.544.0",
     "dotenv-cli": "2.0.1",
     "json-dynamo-putrequest": "1.0.0"
   }

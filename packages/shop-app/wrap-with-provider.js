@@ -11,11 +11,11 @@ export default ({ element }) => (
     <CssBaseline />
     <AppProvider
       config={{
-        region: `${process.env.AWS_REGION}`,
-        userPoolId: `${process.env.AWS_COGNITO_USER_POOL_ID}`,
-        userPoolWebClientId: `${process.env.AWS_COGNITO_USER_POOL_WEBCLIENT_ID}`,
-        graphQlUrl: `${process.env.AWS_APPSYNC_URL}`,
-        graphQlApiKey: `${process.env.AWS_APPSYNC_APIKEY}`,
+        region: `${process.env.CDK_AWS_REGION}`,
+        userPoolId: `${process.env.CDK_AWS_COGNITO_USER_POOL_ID}`,
+        userPoolWebClientId: `${process.env.CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID}`,
+        graphQlUrl: `${process.env.CDK_AWS_APPSYNC_URL}`,
+        graphQlApiKey: `${process.env.CDK_AWS_APPSYNC_APIKEY}`,
       }}
     >
       {element}

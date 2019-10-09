@@ -5,9 +5,9 @@ module.exports = class ProfileResolver extends Construct {
   constructor(scope, id, props) {
     super(scope, id)
 
-    const { graphQlApi, dynamoDBDataSource, STACK_NAME, STACK_ENV } = props
+    const { graphQlApi, dynamoDBDataSource, CDK_STACK_NAME, CDK_STACK_ENV } = props
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ProfileUpsertMutationResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProfileUpsertMutationResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'profileUpsert',
@@ -26,7 +26,7 @@ module.exports = class ProfileResolver extends Construct {
       responseMappingTemplate: `$util.toJson($ctx.result)`,
     })
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ProfileDeleteMutationResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProfileDeleteMutationResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'profileDelete',
@@ -43,7 +43,7 @@ module.exports = class ProfileResolver extends Construct {
       responseMappingTemplate: `$util.toJson($ctx.result)`,
     })
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ProfileUserResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProfileUserResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'profile',

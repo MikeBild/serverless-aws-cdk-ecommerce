@@ -5,9 +5,9 @@ module.exports = class ProductResolver extends Construct {
   constructor(scope, id, props) {
     super(scope, id)
 
-    const { graphQlApi, dynamoDBDataSource, STACK_NAME, STACK_ENV } = props
+    const { graphQlApi, dynamoDBDataSource, CDK_STACK_NAME, CDK_STACK_ENV } = props
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ProductListResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProductListResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'productList',
@@ -33,7 +33,7 @@ module.exports = class ProductResolver extends Construct {
       `,
     })
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ProductGetResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProductGetResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'productGet',
@@ -50,7 +50,7 @@ module.exports = class ProductResolver extends Construct {
       responseMappingTemplate: `$util.toJson($ctx.result)`,
     })
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ProductUpsertMutationResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProductUpsertMutationResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'productUpsert',
@@ -69,7 +69,7 @@ module.exports = class ProductResolver extends Construct {
       responseMappingTemplate: `$util.toJson($ctx.result)`,
     })
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ProductDeleteMutationResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProductDeleteMutationResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'productDelete',

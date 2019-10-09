@@ -13,7 +13,9 @@
     "clean": "lerna run clean",
     "build": "npm run clean && lerna run build --stream",
     "test": "lerna run test --stream",
-    "deploy": "lerna run deploy --stream -- ECommerce-*",
+    "deploy": "npm run deploy:backends && npm run build && npm run deploy:frontends",
+    "deploy:backends": "lerna run deploy:backends --stream -- ECommerce-*",
+    "deploy:frontends": "lerna run deploy:frontends --stream -- ECommerce-*",
     "format": "lerna run format --stream"
   }
 }

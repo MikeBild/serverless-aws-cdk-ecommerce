@@ -5,9 +5,9 @@ module.exports = class MeResolver extends Construct {
   constructor(scope, id, props) {
     super(scope, id)
 
-    const { graphQlApi, parentDataSource, STACK_NAME, STACK_ENV } = props
+    const { graphQlApi, parentDataSource, CDK_STACK_NAME, CDK_STACK_ENV } = props
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-MeGetResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-MeGetResolver`, {
       dataSourceName: parentDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'me',
@@ -16,7 +16,7 @@ module.exports = class MeResolver extends Construct {
       responseMappingTemplate: `$util.toJson({})`,
     })
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-MeUserResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-MeUserResolver`, {
       dataSourceName: parentDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'user',

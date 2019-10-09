@@ -13,10 +13,10 @@ export function App() {
   return (
     <AppProvider
       config={{
-        region: `${process.env.AWS_REGION}`,
-        userPoolId: `${process.env.AWS_COGNITO_USER_POOL_ID}`,
-        userPoolWebClientId: `${process.env.AWS_COGNITO_USER_POOL_WEBCLIENT_ID}`,
-        graphQlUrl: `${process.env.AWS_APPSYNC_URL}`,
+        region: `${process.env.CDK_AWS_REGION}`,
+        userPoolId: `${process.env.CDK_AWS_COGNITO_USER_POOL_ID}`,
+        userPoolWebClientId: `${process.env.CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID}`,
+        graphQlUrl: `${process.env.CDK_AWS_APPSYNC_URL}`,
       }}
       onLinkError={({ networkError, graphQLErrors }) => {
         console.log({ networkError })

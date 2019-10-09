@@ -2,7 +2,7 @@ const fetch = require('isomorphic-fetch')
 const { createHttpLink } = require('apollo-link-http')
 
 require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV}`,
+  path: `.env.${process.env.CDK_NODE_ENV}`,
 })
 
 module.exports = {
@@ -33,9 +33,9 @@ module.exports = {
         fetch,
         createLink: pluginOptions => {
           return createHttpLink({
-            uri: process.env.AWS_APPSYNC_URL,
+            uri: process.env.CDK_AWS_APPSYNC_URL,
             headers: {
-              'x-api-key': process.env.AWS_APPSYNC_APIKEY,
+              'x-api-key': process.env.CDK_AWS_APPSYNC_APIKEY,
             },
           })
         },

@@ -1,4 +1,5 @@
 const { Stack, CfnOutput } = require('@aws-cdk/core')
+const { StringParameter } = require('@aws-cdk/aws-ssm')
 
 const {
   UserPool,
@@ -13,10 +14,10 @@ module.exports = class Cognito extends Stack {
   constructor(parent, id, props) {
     super(parent, id, props)
 
-    const { DEFAULT_GROUPNAME, DEFAULT_USERNAME, STACK_NAME, STACK_ENV } = props
+    const { CDK_COGNITO_DEFAULT_GROUPNAME, CDK_COGNITO_DEFAULT_USERNAME, CDK_STACK_NAME, CDK_STACK_ENV } = props
 
-    this.userPool = new UserPool(this, `${STACK_NAME}-${STACK_ENV}-UserPool`, {
-      userPoolName: `${STACK_NAME}-${STACK_ENV}-UserPool`,
+    this.userPool = new UserPool(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPool`, {
+      userPoolName: `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPool`,
       autoVerifiedAttributes: [UserPoolAttribute.EMAIL],
       adminCreateUserConfig: {
         allowAdminCreateUserOnly: false,
@@ -39,8 +40,18 @@ module.exports = class Cognito extends Stack {
       ],
     })
 
-    const userPoolClient = new UserPoolClient(this, `${STACK_NAME}-${STACK_ENV}-UserPoolClient`, {
-      clientName: `${STACK_NAME}-${STACK_ENV}-UserPoolClient`,
+    new CfnOutput(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolId`, {
+      value: this.userPool.userPoolId,
+    })
+
+    new StringParameter(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolId-Parameter`, {
+      parameterName: `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolId-Parameter`,
+      stringValue: this.userPool.userPoolId,
+      description: 'AWS_COGNITO_USER_POOL_ID',
+    })
+
+    const userPoolClient = new UserPoolClient(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient`, {
+      clientName: `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient`,
       enabledAuthFlows: [AuthFlow.ADMIN_NO_SRP],
       refreshTokenValidity: 30,
       generateSecret: false,
@@ -48,36 +59,30 @@ module.exports = class Cognito extends Stack {
       userPool: this.userPool,
     })
 
-    new CfnOutput(this, `${STACK_NAME}-${STACK_ENV}-UserPoolClient-UserPoolClientId`, {
+    new CfnOutput(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolClientId`, {
       value: userPoolClient.userPoolClientId,
     })
 
-    const defaultUser = new CfnUserPoolUser(this, `${STACK_NAME}-${STACK_ENV}-DefaultUser`, {
-      username: DEFAULT_USERNAME,
+    new StringParameter(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolClientId-Parameter`, {
+      parameterName: `${CDK_STACK_NAME}-${CDK_STACK_ENV}-UserPoolClient-UserPoolClientId-Parameter`,
+      stringValue: userPoolClient.userPoolClientId,
+      description: 'AWS_COGNITO_USER_POOL_WEBCLIENT_ID',
+    })
+
+    const defaultUser = new CfnUserPoolUser(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-DefaultUser`, {
+      username: CDK_COGNITO_DEFAULT_USERNAME,
       userPoolId: this.userPool.userPoolId,
       desiredDeliveryMediums: ['EMAIL'],
       userAttributes: [
         {
           name: 'email',
-          value: DEFAULT_USERNAME,
+          value: CDK_COGNITO_DEFAULT_USERNAME,
         },
       ],
     })
 
-    const exampleUser = new CfnUserPoolUser(this, `${STACK_NAME}-${STACK_ENV}-ExampleUser`, {
-      username: 'demo@example.com',
-      userPoolId: this.userPool.userPoolId,
-      desiredDeliveryMediums: ['EMAIL'],
-      userAttributes: [
-        {
-          name: 'email',
-          value: 'mike.bild@gmail.com',
-        },
-      ],
-    })
-
-    const defaultGroup = new CfnUserPoolGroup(this, `${STACK_NAME}-${STACK_ENV}-DefaultGroup`, {
-      groupName: DEFAULT_GROUPNAME,
+    const defaultGroup = new CfnUserPoolGroup(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-DefaultGroup`, {
+      groupName: CDK_COGNITO_DEFAULT_GROUPNAME,
       userPoolId: this.userPool.userPoolId,
     })
   }

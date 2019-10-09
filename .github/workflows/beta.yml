@@ -20,18 +20,29 @@ jobs:
         with:
           args: lerna
 
+      - name: AWS CDK Deploy Backends
+        uses: MikeBild/aws-cdk-js-github-action@1.0.0
+        with:
+          args: deploy --require-approval never --app packages/infrastructure/deploy-backends.js "$STACK_NAME-*"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          CDK_AWS_REGION: eu-central-1
+          CDK_STACK_NAME: ECommerce
+          CDK_STACK_ENV: BETA
+
       - name: Lerna Build
         uses: nuxt/actions-yarn@master
         with:
           args: build
 
-      - name: AWS CDK Deploy
+      - name: AWS CDK Deploy Frontends
         uses: MikeBild/aws-cdk-js-github-action@1.0.0
         with:
-          args: deploy --require-approval never --app packages/infrastructure/app.js "$STACK_NAME-*"
+          args: deploy --require-approval never --app packages/infrastructure/deploy-frontends.js "$STACK_NAME-*"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: eu-central-1
-          STACK_NAME: ECommerce
-          STACK_ENV: BETA
+          CDK_AWS_REGION: eu-central-1
+          CDK_STACK_NAME: ECommerce
+          CDK_STACK_ENV: BETA

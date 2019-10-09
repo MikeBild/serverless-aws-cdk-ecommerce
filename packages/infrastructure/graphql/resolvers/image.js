@@ -5,9 +5,9 @@ module.exports = class ImageResolver extends Construct {
   constructor(scope, id, props) {
     super(scope, id)
 
-    const { graphQlApi, dynamoDBDataSource, STACK_NAME, STACK_ENV } = props
+    const { graphQlApi, dynamoDBDataSource, CDK_STACK_NAME, CDK_STACK_ENV } = props
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ImageListResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ImageListResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'imageList',
@@ -33,7 +33,7 @@ module.exports = class ImageResolver extends Construct {
       `,
     })
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ImageGetResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ImageGetResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'imageGet',
@@ -49,7 +49,7 @@ module.exports = class ImageResolver extends Construct {
       responseMappingTemplate: `$util.toJson($ctx.result)`,
     })
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ImageUpsertMutationResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ImageUpsertMutationResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'imageUpsert',
@@ -68,7 +68,7 @@ module.exports = class ImageResolver extends Construct {
       responseMappingTemplate: `$util.toJson($ctx.result)`,
     })
 
-    new CfnResolver(this, `${STACK_NAME}-${STACK_ENV}-ImageDeleteMutationResolver`, {
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ImageDeleteMutationResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
       fieldName: 'imageDelete',

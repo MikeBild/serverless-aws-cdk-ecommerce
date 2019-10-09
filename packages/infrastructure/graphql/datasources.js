@@ -6,9 +6,9 @@ module.exports = class DynamoDBDataSource extends Construct {
   constructor(scope, id, props) {
     super(scope, id)
 
-    const { graphQlApi, appSyncServiceRole, deliveryPublishLambda, STACK_NAME, STACK_ENV } = props
+    const { graphQlApi, appSyncServiceRole, deliveryPublishLambda, CDK_STACK_NAME, CDK_STACK_ENV } = props
 
-    const dynamoDBTable = new Table(this, `${STACK_NAME}-${STACK_ENV}-DynamoDB-Table`, {
+    const dynamoDBTable = new Table(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-DynamoDB-Table`, {
       partitionKey: { name: 'id', type: AttributeType.STRING },
       sortKey: { name: 'entity', type: AttributeType.STRING },
       tableName: 'ECommerceTable',
@@ -16,7 +16,7 @@ module.exports = class DynamoDBDataSource extends Construct {
       removalPolicy: RemovalPolicy.DESTROY,
     })
 
-    this.dynamoDBDataSource = new CfnDataSource(this, `${STACK_NAME}-${STACK_ENV}-DynamoDB-DataSource`, {
+    this.dynamoDBDataSource = new CfnDataSource(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-DynamoDB-DataSource`, {
       name: 'DynamoDB',
       type: 'AMAZON_DYNAMODB',
       apiId: graphQlApi.attrApiId,
@@ -28,7 +28,7 @@ module.exports = class DynamoDBDataSource extends Construct {
       },
     })
 
-    this.parentDataSource = new CfnDataSource(this, `${STACK_NAME}-${STACK_ENV}-Parent-DataSource`, {
+    this.parentDataSource = new CfnDataSource(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-Parent-DataSource`, {
       name: 'Parent',
       type: 'NONE',
       apiId: graphQlApi.attrApiId,
