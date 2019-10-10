@@ -18,7 +18,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-export function CartForm({
+export function CartSummary({
   isOpen = false,
   value = {},
   onClose = () => {},

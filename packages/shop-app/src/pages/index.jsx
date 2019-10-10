@@ -3,11 +3,13 @@ import { Link as RouterLink, navigate } from 'gatsby'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import graphql from 'graphql-tag'
 import { makeStyles } from '@material-ui/core/styles'
-import { Container, Grid, IconButton, Badge } from '@material-ui/core'
-import { ShoppingCart as ShoppingCartIcon } from '@material-ui/icons'
 import { Layout, Loading, SearchInput, AppContext } from '@serverless-aws-cdk-ecommerce/react-components'
+import { Container, Grid, IconButton, Badge, MenuItem } from '@material-ui/core'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import SettingsIcon from '@material-ui/icons/Settings'
 import { ProductCard } from '../components/ProductCard'
-import { CartForm } from '../components/CartForm'
+import { CartSummary } from '../components/CartSummary'
+import { ProfileForm } from '../components/ProfileForm'
 import { SEO } from '../components/SEO'
 
 const PAGE_QUERY = graphql(`
@@ -53,9 +55,11 @@ export default function Products() {
   const classes = useStyles()
   const { loading, data: { cart, productList: { products = [] } = {} } = {} } = useQuery(PAGE_QUERY, {
     variables: { id: 'cart1' },
+    pollInterval: 10000,
   })
   const [cartUpsert] = useMutation(CART_UPSERT)
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
   const { products: cartProducts = [] } = cart || {}
 
   return (
@@ -78,10 +82,28 @@ export default function Products() {
             </>
           )
         }}
+        renderProfileMenu={({ close }) => {
+          return (
+            <MenuItem
+              onClick={() => {
+                setIsProfileOpen(true)
+                close()
+              }}
+            >
+              <SettingsIcon className={classes.leftIcon} />
+              Profil
+            </MenuItem>
+          )
+        }}
         onLogout={() => navigate('/signin')}
       >
         <Loading isLoading={loading} />
-        <CartForm
+        <ProfileForm
+          isOpen={isProfileOpen}
+          onCancel={() => setIsProfileOpen(false)}
+          onClose={() => setIsProfileOpen(false)}
+        />
+        <CartSummary
           value={cart || {}}
           isOpen={isCartOpen}
           onClose={() => setIsCartOpen(false)}
@@ -134,6 +156,9 @@ const useStyles = makeStyles(theme => ({
   shoppingCartLink: {
     color: 'white',
     textDecoration: 'none',
+  },
+  leftIcon: {
+    marginRight: theme.spacing(1),
   },
 }))
 

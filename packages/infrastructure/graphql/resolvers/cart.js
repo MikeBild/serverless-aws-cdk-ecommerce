@@ -24,6 +24,22 @@ module.exports = class CartResolver extends Construct {
       responseMappingTemplate: `$util.toJson($ctx.result)`,
     })
 
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-CartMeResolver`, {
+      dataSourceName: dynamoDBDataSource.attrName,
+      apiId: graphQlApi.attrApiId,
+      fieldName: 'cart',
+      typeName: 'Me',
+      requestMappingTemplate: `{"version": "2017-02-28", "payload": {}}`,
+      responseMappingTemplate: `
+        #set($result = {
+          "username": $ctx.identity.username,
+          "id": $ctx.identity.username
+        })
+
+        $util.toJson($result)
+      `,
+    })
+
     new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-CartProductsResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,

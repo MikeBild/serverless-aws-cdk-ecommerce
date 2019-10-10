@@ -26,17 +26,21 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import FaceIcon from '@material-ui/icons/Face'
 import LockIcon from '@material-ui/icons/Lock'
-import SettingsIcon from '@material-ui/icons/Settings'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import PersonAddIcon from '@material-ui/icons/PersonAdd'
 
 const drawerWidth = 240
+
+interface RenderMenuProps {
+  close: () => void
+}
 
 interface LayoutProps {
   title?: string
   children: JSX.Element[] | JSX.Element
   renderSideMenu?: () => JSX.Element | null
   renderTopMenu?: () => JSX.Element | null
+  renderProfileMenu?: (props: RenderMenuProps) => JSX.Element | null
   onLogout?: () => void
   LinkComponent?: any
 }
@@ -46,6 +50,7 @@ export function Layout({
   children,
   renderSideMenu,
   renderTopMenu = () => null,
+  renderProfileMenu = _ => null,
   onLogout = () => null,
   LinkComponent,
 }: LayoutProps): JSX.Element {
@@ -132,10 +137,11 @@ export function Layout({
                 >
                   <MenuItem disabled>{currentUsername}</MenuItem>
                   <Divider />
-                  <MenuItem component={LinkComponent} to="/profile" onClick={() => setAnchorEl(null)}>
-                    <SettingsIcon className={classes.leftIcon} />
-                    Profil
-                  </MenuItem>
+                  {renderProfileMenu({
+                    close: () => {
+                      setAnchorEl(null)
+                    },
+                  })}
                   <Divider />
                   <MenuItem
                     onClick={async () => {

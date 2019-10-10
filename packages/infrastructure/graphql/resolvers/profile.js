@@ -7,6 +7,27 @@ module.exports = class ProfileResolver extends Construct {
 
     const { graphQlApi, dynamoDBDataSource, CDK_STACK_NAME, CDK_STACK_ENV } = props
 
+    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProfileMeResolver`, {
+      dataSourceName: dynamoDBDataSource.attrName,
+      apiId: graphQlApi.attrApiId,
+      fieldName: 'profile',
+      typeName: 'Me',
+      requestMappingTemplate: `
+      #set($id = $ctx.identity.username.split("@")[0])
+      #set($entity = "Profile")
+
+      {
+        "version": "2017-02-28",
+        "operation": "GetItem",
+        "key": {
+          "id": $util.dynamodb.toDynamoDBJson($id),
+          "entity": $util.dynamodb.toDynamoDBJson($entity),
+        },
+      }
+      `,
+      responseMappingTemplate: `$util.toJson($ctx.result)`,
+    })
+
     new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProfileUpsertMutationResolver`, {
       dataSourceName: dynamoDBDataSource.attrName,
       apiId: graphQlApi.attrApiId,
@@ -38,27 +59,6 @@ module.exports = class ProfileResolver extends Construct {
         "version" : "2017-02-28",
         "operation" : "DeleteItem",
         "key" : { "id" : $util.dynamodb.toDynamoDBJson($ctx.args.id), "entity": $util.dynamodb.toDynamoDBJson($entity) }
-      }
-      `,
-      responseMappingTemplate: `$util.toJson($ctx.result)`,
-    })
-
-    new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProfileUserResolver`, {
-      dataSourceName: dynamoDBDataSource.attrName,
-      apiId: graphQlApi.attrApiId,
-      fieldName: 'profile',
-      typeName: 'User',
-      requestMappingTemplate: `
-      #set($id = $ctx.identity.username.split("@")[0])
-      #set($entity = "Profile")
-
-      {
-        "version": "2017-02-28",
-        "operation": "GetItem",
-        "key": {
-          "id": $util.dynamodb.toDynamoDBJson($id),
-          "entity": $util.dynamodb.toDynamoDBJson($entity),
-        },
       }
       `,
       responseMappingTemplate: `$util.toJson($ctx.result)`,
