@@ -1,11 +1,11 @@
 [
   {
-    "id": "cart1",
+    "id": "mike@mikebild.com",
     "entity": "Cart",
     "productIds": ["book1", "book2"]
   },
   {
-    "id": "cart2",
+    "id": "heike@mikebild.com",
     "entity": "Cart",
     "productIds": ["book1"]
   }

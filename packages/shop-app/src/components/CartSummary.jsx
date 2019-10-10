@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Button,
@@ -27,9 +27,8 @@ export function CartSummary({
   onRemoveProduct = () => {},
 }) {
   const classes = useStyles()
-  const { id, products = [] } = value || {}
-  const hasProducts = products.length
-  const hasId = Boolean(id)
+  const { products: { cartProducts = [] } = {} } = value || {}
+  const hasProducts = cartProducts.length
 
   return (
     <Dialog open={isOpen} onClose={onClose} disableBackdropClick>
@@ -54,7 +53,7 @@ export function CartSummary({
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.filter(Boolean).map(({ id, title, logoUrl, price }) => (
+            {cartProducts.filter(Boolean).map(({ id, title, logoUrl, price }) => (
               <TableRow key={id}>
                 <TableCell>
                   <CardMedia className={classes.cover} image={logoUrl} title={title} />

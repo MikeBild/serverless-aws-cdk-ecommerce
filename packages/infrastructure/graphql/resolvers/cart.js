@@ -29,15 +29,17 @@ module.exports = class CartResolver extends Construct {
       apiId: graphQlApi.attrApiId,
       fieldName: 'cart',
       typeName: 'Me',
-      requestMappingTemplate: `{"version": "2017-02-28", "payload": {}}`,
-      responseMappingTemplate: `
-        #set($result = {
-          "username": $ctx.identity.username,
-          "id": $ctx.identity.username
-        })
-
-        $util.toJson($result)
+      requestMappingTemplate: `
+      {
+        "version": "2017-02-28",
+        "operation": "GetItem",
+        "key": {
+          "id": $util.dynamodb.toDynamoDBJson($ctx.identity.username),
+          "entity": $util.dynamodb.toDynamoDBJson("Cart"),
+        },
+      }
       `,
+      responseMappingTemplate: `$util.toJson($ctx.result)`,
     })
 
     new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-CartProductsResolver`, {
@@ -66,7 +68,12 @@ module.exports = class CartResolver extends Construct {
           }
       }
       `,
-      responseMappingTemplate: `$util.toJson($ctx.result.data["${CDK_STACK_NAME}-Table-${CDK_STACK_ENV}"])`,
+      responseMappingTemplate: `
+      {
+        "items": $util.toJson($ctx.result.data["${CDK_STACK_NAME}-Table-${CDK_STACK_ENV}"]),
+        "nextToken": $util.toJson($util.defaultIfNullOrBlank($context.result.nextToken, null))
+      }
+      `,
     })
 
     new CfnResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-CartUpsertMutationResolver`, {
@@ -75,13 +82,10 @@ module.exports = class CartResolver extends Construct {
       fieldName: 'cartUpsert',
       typeName: 'Mutation',
       requestMappingTemplate: `
-      #if($ctx.args.input.id) #set($id = $ctx.args.input.id) #else #set($id = $util.autoId()) #end
-      #set($entity = "Cart")
-
       {
           "version" : "2017-02-28",
           "operation" : "PutItem",
-          "key" : { "id": $util.dynamodb.toDynamoDBJson($id), "entity": $util.dynamodb.toDynamoDBJson($entity) },
+          "key" : { "id": $util.dynamodb.toDynamoDBJson($ctx.identity.username), "entity": $util.dynamodb.toDynamoDBJson("Cart") },
           "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args.input)
       }
       `,

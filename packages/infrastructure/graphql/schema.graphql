@@ -8,9 +8,9 @@ type Query {
   imageList(filter: ImageFilterInput, limit: Int, nextToken: String): ImageConnection
     @aws_api_key
     @aws_cognito_user_pools
-  cartGet(id: ID): Cart @aws_api_key @aws_cognito_user_pools
-  orderGet(id: ID): Order @aws_api_key @aws_cognito_user_pools
-  invoiceGet(id: ID): Invoice @aws_api_key @aws_cognito_user_pools
+  cartGet(id: ID!): Cart @aws_api_key @aws_cognito_user_pools
+  orderGet(id: ID!): Order @aws_api_key @aws_cognito_user_pools
+  invoiceGet(id: ID!): Invoice @aws_api_key @aws_cognito_user_pools
 }
 
 type Me @aws_cognito_user_pools {
@@ -20,7 +20,7 @@ type Me @aws_cognito_user_pools {
 }
 
 type User @aws_api_key @aws_cognito_user_pools {
-  id: ID
+  id: ID!
   username: ID
 }
 
@@ -46,7 +46,7 @@ type Product @aws_api_key @aws_cognito_user_pools {
 
 type Cart @aws_api_key @aws_cognito_user_pools {
   id: ID!
-  products: [Product]
+  products: ProductConnection
   user: User
 }
 
@@ -153,15 +153,17 @@ type Mutation @aws_api_key @aws_cognito_user_pools {
 }
 
 input OrderForCartInput {
-  cartId: ID!
+  id: ID
+  cartId: ID
 }
 
 input InvoiceForOrderInput {
-  orderId: ID!
+  id: ID
+  orderId: ID
 }
 
 input CartUpsertInput {
-  id: ID!
+  id: ID
   productIds: [ID]
   expire: Int
 }
@@ -182,6 +184,9 @@ input ProfileInput {
   id: ID
   firstName: String
   lastName: String
+  address: String
+  zip: String
+  city: String
 }
 
 type Subscription @aws_api_key @aws_cognito_user_pools {

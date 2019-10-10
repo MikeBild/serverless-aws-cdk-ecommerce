@@ -1,27 +1,22 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, IconButton, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
-import DeleteIcon from '@material-ui/icons/Delete'
-import AddAPhotoIcon from '@material-ui/icons/AddAPhoto'
 
 export function ProfileForm({
   isOpen = false,
   value = {},
   onClose = () => {},
   onEdit = () => {},
-  onAdd = () => {},
   onCancel = () => {},
-  onDelete = () => {},
 }) {
   const classes = useStyles()
-  const { id, firstName, lastName, address, city, zip } = value
+  const { firstName, lastName, address, city, zip } = value || {}
   const firstNameRef = useRef()
   const lastNameRef = useRef()
   const addressRef = useRef()
   const cityRef = useRef()
   const zipRef = useRef()
-  const hasId = Boolean(id)
 
   return (
     <Dialog open={isOpen} onClose={onClose} disableBackdropClick>
@@ -61,13 +56,16 @@ export function ProfileForm({
           inputRef={addressRef}
         />
         <div className={classes.wrapper}>
+          <TextField variant="outlined" margin="normal" fullWidth label="Zip" defaultValue={zip} inputRef={zipRef} />
+        </div>
+        <div className={classes.wrapper}>
           <TextField
             variant="outlined"
             margin="normal"
             fullWidth
-            label="Logo URL"
-            defaultValue={zip}
-            inputRef={zipRef}
+            label="Stadt"
+            defaultValue={city}
+            inputRef={cityRef}
           />
         </div>
       </DialogContent>
@@ -75,7 +73,18 @@ export function ProfileForm({
         <Button onClick={onCancel} color="primary" autoFocus>
           Abbrechen
         </Button>
-        <Button onClick={() => onAdd({})} color="primary">
+        <Button
+          onClick={() =>
+            onEdit({
+              firstName: firstNameRef.current.value,
+              lastName: lastNameRef.current.value,
+              address: addressRef.current.value,
+              zip: zipRef.current.value,
+              city: cityRef.current.value,
+            })
+          }
+          color="primary"
+        >
           Speichern
         </Button>
       </DialogActions>

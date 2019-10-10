@@ -13,15 +13,12 @@ module.exports = class ProfileResolver extends Construct {
       fieldName: 'profile',
       typeName: 'Me',
       requestMappingTemplate: `
-      #set($id = $ctx.identity.username.split("@")[0])
-      #set($entity = "Profile")
-
       {
         "version": "2017-02-28",
         "operation": "GetItem",
         "key": {
-          "id": $util.dynamodb.toDynamoDBJson($id),
-          "entity": $util.dynamodb.toDynamoDBJson($entity),
+          "id": $util.dynamodb.toDynamoDBJson($ctx.identity.username),
+          "entity": $util.dynamodb.toDynamoDBJson("Profile"),
         },
       }
       `,
@@ -34,14 +31,11 @@ module.exports = class ProfileResolver extends Construct {
       fieldName: 'profileUpsert',
       typeName: 'Mutation',
       requestMappingTemplate: `
-      #if($ctx.args.input.id) #set($id = $ctx.args.input.id) #else #set($id = $util.autoId()) #end
-      #set($entity = "Profile")
-
       {
-          "version" : "2017-02-28",
-          "operation" : "PutItem",
-          "key" : { "id": $util.dynamodb.toDynamoDBJson($id), "entity": $util.dynamodb.toDynamoDBJson($entity) },
-          "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args.input)
+        "version" : "2017-02-28",
+        "operation" : "PutItem",
+        "key" : { "id": $util.dynamodb.toDynamoDBJson($ctx.identity.username), "entity": $util.dynamodb.toDynamoDBJson("Profile") },
+        "attributeValues" : $util.dynamodb.toMapValuesJson($ctx.args.input)
       }
       `,
       responseMappingTemplate: `$util.toJson($ctx.result)`,
@@ -53,12 +47,10 @@ module.exports = class ProfileResolver extends Construct {
       fieldName: 'profileDelete',
       typeName: 'Mutation',
       requestMappingTemplate: `
-      #set($entity = "Profile")
-
       {
         "version" : "2017-02-28",
         "operation" : "DeleteItem",
-        "key" : { "id" : $util.dynamodb.toDynamoDBJson($ctx.args.id), "entity": $util.dynamodb.toDynamoDBJson($entity) }
+        "key" : { "id" : $util.dynamodb.toDynamoDBJson($ctx.identity.username), "entity": $util.dynamodb.toDynamoDBJson("Profile") }
       }
       `,
       responseMappingTemplate: `$util.toJson($ctx.result)`,

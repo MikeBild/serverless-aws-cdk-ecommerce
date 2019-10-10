@@ -13,24 +13,39 @@ import { ProfileForm } from '../components/ProfileForm'
 import { SEO } from '../components/SEO'
 
 const PAGE_QUERY = graphql(`
-  query ProductPage($id: ID = "undefined") {
+  query ProductPage {
     productList {
       products: items {
         id
         title
-        price
         description
         logoUrl
+        price
       }
     }
-    cart: cartGet(id: $id) {
-      id
-      products {
+    me {
+      user {
+        username
+      }
+      profile {
         id
-        title
-        description
-        price
-        logoUrl
+        firstName
+        lastName
+        address
+        zip
+        city
+      }
+      cart {
+        id
+        products {
+          cartProducts: items {
+            id
+            title
+            description
+            logoUrl
+            price
+          }
+        }
       }
     }
   }
@@ -41,26 +56,44 @@ const CART_UPSERT = graphql(`
     cartUpsert(input: $input) {
       id
       products {
-        id
-        title
-        description
-        price
-        logoUrl
+        cartProducts: items {
+          id
+          title
+          description
+          logoUrl
+          price
+        }
       }
+    }
+  }
+`)
+
+const PROFILE_UPSERT = graphql(`
+  mutation ProfileUpsert($input: ProfileInput!) {
+    profileUpsert(input: $input) {
+      id
+      firstName
+      lastName
+      address
+      zip
+      city
     }
   }
 `)
 
 export default function Products() {
   const classes = useStyles()
-  const { loading, data: { cart, productList: { products = [] } = {} } = {} } = useQuery(PAGE_QUERY, {
-    variables: { id: 'cart1' },
-    pollInterval: 10000,
-  })
+  const {
+    loading,
+    data: { me: { cart = {}, profile = {} } = {}, productList: { products = [] } = {} } = {},
+  } = useQuery(PAGE_QUERY)
   const [cartUpsert] = useMutation(CART_UPSERT)
+  const [profileUpsert] = useMutation(PROFILE_UPSERT)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
-  const { products: cartProducts = [] } = cart || {}
+
+  const { products: { cartProducts = [] } = {} } = cart || {}
+  const { firstName } = profile || {}
 
   return (
     <CheckAuth isProtected={false}>
@@ -91,7 +124,7 @@ export default function Products() {
               }}
             >
               <SettingsIcon className={classes.leftIcon} />
-              Profil
+              Profil von {firstName}
             </MenuItem>
           )
         }}
@@ -100,8 +133,13 @@ export default function Products() {
         <Loading isLoading={loading} />
         <ProfileForm
           isOpen={isProfileOpen}
+          value={profile}
           onCancel={() => setIsProfileOpen(false)}
           onClose={() => setIsProfileOpen(false)}
+          onEdit={async profile => {
+            await profileUpsert({ variables: { input: profile } })
+            setIsProfileOpen(false)
+          }}
         />
         <CartSummary
           value={cart || {}}
@@ -114,7 +152,7 @@ export default function Products() {
               .filter(Boolean)
               .map(({ id }) => id)
               .filter(itm => itm !== id)
-            await cartUpsert({ variables: { input: { id: cart.id, productIds } } })
+            await cartUpsert({ variables: { input: { productIds } } })
           }}
         />
         <Container className={classes.contentGrid} maxWidth="xl">
@@ -126,7 +164,7 @@ export default function Products() {
                 key={item.id}
                 onAddToCart={async ({ id }) => {
                   const productIds = [...new Set([...cartProducts.filter(Boolean).map(({ id }) => id), id])]
-                  await cartUpsert({ variables: { input: { id: cart.id, productIds } } })
+                  await cartUpsert({ variables: { input: { productIds } } })
                 }}
               />
             ))}
