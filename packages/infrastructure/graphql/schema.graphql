@@ -8,25 +8,20 @@ type Query {
   imageList(filter: ImageFilterInput, limit: Int, nextToken: String): ImageConnection
     @aws_api_key
     @aws_cognito_user_pools
-  favoriteGet(id: ID!): Favorite @aws_api_key @aws_cognito_user_pools
-  favoriteList(filter: FavoriteFilterInput, limit: Int, nextToken: String): FavoriteConnection
-    @aws_api_key
-    @aws_cognito_user_pools
-  categoryList(filter: CategoryFilterInput, limit: Int, nextToken: String): CategoryConnection
-    @aws_api_key
-    @aws_cognito_user_pools
   cartGet(id: ID!): Cart @aws_api_key @aws_cognito_user_pools
+  orderGet(id: ID!): Order @aws_api_key @aws_cognito_user_pools
+  invoiceGet(id: ID!): Invoice @aws_api_key @aws_cognito_user_pools
 }
 
 type Me @aws_cognito_user_pools {
   user: User
-  favorites: [Favorite]
+  profile: Profile
+  cart: Cart
 }
 
 type User @aws_api_key @aws_cognito_user_pools {
-  id: ID
+  id: ID!
   username: ID
-  profile: Profile
 }
 
 type Image @aws_api_key @aws_cognito_user_pools {
@@ -47,21 +42,24 @@ type Product @aws_api_key @aws_cognito_user_pools {
   description: String
   logoUrl: String
   price: Float
-  category: Category
-  isFavorite: Boolean
 }
 
 type Cart @aws_api_key @aws_cognito_user_pools {
   id: ID!
-  products: [Product]
+  products: ProductConnection
+  user: User
 }
 
 type Order @aws_api_key @aws_cognito_user_pools {
   id: ID!
+  cart: Cart
+  user: User
 }
 
 type Invoice @aws_api_key @aws_cognito_user_pools {
   id: ID!
+  order: Order
+  user: User
 }
 
 type ProductConnection @aws_api_key @aws_cognito_user_pools {
@@ -69,43 +67,18 @@ type ProductConnection @aws_api_key @aws_cognito_user_pools {
   nextToken: String
 }
 
-type FavoriteConnection @aws_api_key @aws_cognito_user_pools {
-  items: [Favorite]
-  nextToken: String
-}
-
-type CategoryConnection @aws_api_key @aws_cognito_user_pools {
-  items: [Category]
-  nextToken: String
-}
-
-type Category @aws_api_key @aws_cognito_user_pools {
-  id: ID!
-  title: String
-}
-
-type Favorite @aws_api_key @aws_cognito_user_pools {
-  id: ID!
-  product: Product
-  user: User
-}
-
 type Profile @aws_api_key @aws_cognito_user_pools {
   id: ID!
   firstName: String
   lastName: String
+  address: String
+  zip: String
+  city: String
 }
 
 input ProductFilterInput {
   id: IDFilterInput
-}
-
-input FavoriteFilterInput {
-  id: IDFilterInput
-}
-
-input CategoryFilterInput {
-  id: IDFilterInput
+  title: StringFilterInput
 }
 
 input ImageFilterInput {
@@ -174,28 +147,25 @@ type Mutation @aws_api_key @aws_cognito_user_pools {
   profileDelete(id: ID!): Profile
   productUpsert(input: ProductInput!): Product
   productDelete(id: ID!): Product
-  addToCart(input: AddToCartInput!): Cart
-  removeFromCart(input: RemoveFromCartInput!): Cart
-  checkoutCart(input: CheckoutCartInput!): Order
-  payForOrder(input: PayForOrderInput!): Invoice
+  cartUpsert(input: CartUpsertInput!): Cart
+  orderForCart(input: OrderForCartInput!): Order
+  invoiceForOrder(input: InvoiceForOrderInput!): Invoice
 }
 
-input CheckoutCartInput {
-  cartId: ID!
+input OrderForCartInput {
+  id: ID
+  cartId: ID
 }
 
-input PayForOrderInput {
-  orderId: ID!
+input InvoiceForOrderInput {
+  id: ID
+  orderId: ID
 }
 
-input AddToCartInput {
-  cartId: ID!
-  productId: ID!
-}
-
-input RemoveFromCartInput {
-  cartId: ID!
-  productId: ID!
+input CartUpsertInput {
+  id: ID
+  productIds: [ID]
+  expire: Int
 }
 
 input ImageInput {
@@ -208,13 +178,15 @@ input ProductInput {
   price: Float
   description: String
   logoUrl: String
-  categoryId: ID
 }
 
 input ProfileInput {
   id: ID
   firstName: String
   lastName: String
+  address: String
+  zip: String
+  city: String
 }
 
 type Subscription @aws_api_key @aws_cognito_user_pools {

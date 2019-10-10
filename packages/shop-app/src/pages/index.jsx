@@ -1,44 +1,99 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link as RouterLink, navigate } from 'gatsby'
-import { useQuery, useSubscription } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import graphql from 'graphql-tag'
 import { makeStyles } from '@material-ui/core/styles'
-import { Container, Grid, IconButton } from '@material-ui/core'
-import { ShoppingCart as ShoppingCartIcon } from '@material-ui/icons'
 import { Layout, Loading, SearchInput, AppContext } from '@serverless-aws-cdk-ecommerce/react-components'
+import { Container, Grid, IconButton, Badge, MenuItem } from '@material-ui/core'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import SettingsIcon from '@material-ui/icons/Settings'
 import { ProductCard } from '../components/ProductCard'
+import { CartSummary } from '../components/CartSummary'
+import { ProfileForm } from '../components/ProfileForm'
 import { SEO } from '../components/SEO'
 
-const LIST = graphql(`
-  query ProductList {
+const PAGE_QUERY = graphql(`
+  query ProductPage {
     productList {
       products: items {
         id
         title
-        price
         description
         logoUrl
+        price
+      }
+    }
+    me {
+      user {
+        username
+      }
+      profile {
+        id
+        firstName
+        lastName
+        address
+        zip
+        city
+      }
+      cart {
+        id
+        products {
+          cartProducts: items {
+            id
+            title
+            description
+            logoUrl
+            price
+          }
+        }
       }
     }
   }
 `)
 
-const UPSERTED = graphql(`
-  subscription UpsertedProduct {
-    upsertedProduct {
+const CART_UPSERT = graphql(`
+  mutation CartUpsert($input: CartUpsertInput!) {
+    cartUpsert(input: $input) {
       id
-      title
-      description
-      logoUrl
-      price
+      products {
+        cartProducts: items {
+          id
+          title
+          description
+          logoUrl
+          price
+        }
+      }
+    }
+  }
+`)
+
+const PROFILE_UPSERT = graphql(`
+  mutation ProfileUpsert($input: ProfileInput!) {
+    profileUpsert(input: $input) {
+      id
+      firstName
+      lastName
+      address
+      zip
+      city
     }
   }
 `)
 
 export default function Products() {
   const classes = useStyles()
-  const { loading, data: { productList: { products = [] } = {} } = {} } = useQuery(LIST)
-  const { data: { upsertedProduct } = {} } = useSubscription(UPSERTED)
+  const {
+    loading,
+    data: { me: { cart = {}, profile = {} } = {}, productList: { products = [] } = {} } = {},
+  } = useQuery(PAGE_QUERY)
+  const [cartUpsert] = useMutation(CART_UPSERT)
+  const [profileUpsert] = useMutation(PROFILE_UPSERT)
+  const [isCartOpen, setIsCartOpen] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
+
+  const { products: { cartProducts = [] } = {} } = cart || {}
+  const { firstName } = profile || {}
 
   return (
     <CheckAuth isProtected={false}>
@@ -52,20 +107,66 @@ export default function Products() {
               <RouterLink to="/" className={classes.topMenuLink}>
                 Produkte
               </RouterLink>
-              <IconButton className={classes.shoppingCartLink}>
-                <ShoppingCartIcon />
+              <IconButton className={classes.shoppingCartLink} onClick={() => setIsCartOpen(true)}>
+                <Badge badgeContent={cartProducts.filter(Boolean).length} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
               </IconButton>
             </>
+          )
+        }}
+        renderProfileMenu={({ close }) => {
+          return (
+            <MenuItem
+              onClick={() => {
+                setIsProfileOpen(true)
+                close()
+              }}
+            >
+              <SettingsIcon className={classes.leftIcon} />
+              Profil von {firstName}
+            </MenuItem>
           )
         }}
         onLogout={() => navigate('/signin')}
       >
         <Loading isLoading={loading} />
+        <ProfileForm
+          isOpen={isProfileOpen}
+          value={profile}
+          onCancel={() => setIsProfileOpen(false)}
+          onClose={() => setIsProfileOpen(false)}
+          onEdit={async profile => {
+            await profileUpsert({ variables: { input: profile } })
+            setIsProfileOpen(false)
+          }}
+        />
+        <CartSummary
+          value={cart || {}}
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          onCancel={() => setIsCartOpen(false)}
+          onCartOrder={() => {}}
+          onRemoveProduct={async ({ id }) => {
+            const productIds = cartProducts
+              .filter(Boolean)
+              .map(({ id }) => id)
+              .filter(itm => itm !== id)
+            await cartUpsert({ variables: { input: { productIds } } })
+          }}
+        />
         <Container className={classes.contentGrid} maxWidth="xl">
           <SearchInput placeholderText="Produktsuche" className={classes.search} />
           <Grid container spacing={4}>
-            {products.map(item => (
-              <ProductCard item={item} key={item.id} />
+            {products.filter(Boolean).map(item => (
+              <ProductCard
+                item={item}
+                key={item.id}
+                onAddToCart={async ({ id }) => {
+                  const productIds = [...new Set([...cartProducts.filter(Boolean).map(({ id }) => id), id])]
+                  await cartUpsert({ variables: { input: { productIds } } })
+                }}
+              />
             ))}
           </Grid>
         </Container>
@@ -93,6 +194,9 @@ const useStyles = makeStyles(theme => ({
   shoppingCartLink: {
     color: 'white',
     textDecoration: 'none',
+  },
+  leftIcon: {
+    marginRight: theme.spacing(1),
   },
 }))
 

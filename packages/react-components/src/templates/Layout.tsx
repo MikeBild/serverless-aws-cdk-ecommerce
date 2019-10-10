@@ -1,43 +1,46 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { AppContext } from '../providers/AppProvider'
 import { useApolloClient } from '@apollo/react-hooks'
 import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import { useMediaQuery } from '@material-ui/core'
-import { useTheme } from '@material-ui/core/styles'
-import { Chip, Avatar, Tooltip } from '@material-ui/core'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import {
-  EventAvailable as EventAvailableIcon,
-  ExitToApp as ExitToAppIcon,
-  PersonAdd as PersonAddIcon,
-} from '@material-ui/icons'
-
-import Drawer from '@material-ui/core/Drawer'
-import Box from '@material-ui/core/Box'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import List from '@material-ui/core/List'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import Badge from '@material-ui/core/Badge'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
+  Chip,
+  Avatar,
+  Tooltip,
+  useMediaQuery,
+  Drawer,
+  Box,
+  AppBar,
+  Toolbar,
+  List,
+  Typography,
+  Divider,
+  IconButton,
+  Badge,
+  MenuItem,
+  Menu,
+} from '@material-ui/core'
+import { AppContext } from '../providers/AppProvider'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import FaceIcon from '@material-ui/icons/Face'
 import LockIcon from '@material-ui/icons/Lock'
-import SettingsIcon from '@material-ui/icons/Settings'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import PersonAddIcon from '@material-ui/icons/PersonAdd'
 
 const drawerWidth = 240
+
+interface RenderMenuProps {
+  close: () => void
+}
 
 interface LayoutProps {
   title?: string
   children: JSX.Element[] | JSX.Element
   renderSideMenu?: () => JSX.Element | null
   renderTopMenu?: () => JSX.Element | null
+  renderProfileMenu?: (props: RenderMenuProps) => JSX.Element | null
   onLogout?: () => void
   LinkComponent?: any
 }
@@ -47,6 +50,7 @@ export function Layout({
   children,
   renderSideMenu,
   renderTopMenu = () => null,
+  renderProfileMenu = _ => null,
   onLogout = () => null,
   LinkComponent,
 }: LayoutProps): JSX.Element {
@@ -133,10 +137,11 @@ export function Layout({
                 >
                   <MenuItem disabled>{currentUsername}</MenuItem>
                   <Divider />
-                  <MenuItem component={LinkComponent} to="/profile" onClick={() => setAnchorEl(null)}>
-                    <SettingsIcon className={classes.leftIcon} />
-                    Profil
-                  </MenuItem>
+                  {renderProfileMenu({
+                    close: () => {
+                      setAnchorEl(null)
+                    },
+                  })}
                   <Divider />
                   <MenuItem
                     onClick={async () => {
