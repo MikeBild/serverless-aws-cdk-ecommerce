@@ -8,6 +8,9 @@ const { CfnGraphQLApi, CfnApiKey, CfnGraphQLSchema, CfnDataSource } = require('@
 const DataSources = require('./graphql/datasources')
 const ProfileResolver = require('./graphql/resolvers/profile')
 const ProductResolver = require('./graphql/resolvers/product')
+const CartResolver = require('./graphql/resolvers/cart')
+const OrderResolver = require('./graphql/resolvers/order')
+const InvoiceResolver = require('./graphql/resolvers/invoice')
 const ImageResolver = require('./graphql/resolvers/image')
 const MeResolver = require('./graphql/resolvers/me')
 
@@ -131,6 +134,27 @@ module.exports = class GraphQL extends Stack {
     })
 
     new ProductResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-ProductResolver`, {
+      CDK_STACK_NAME,
+      CDK_STACK_ENV,
+      dynamoDBDataSource,
+      graphQlApi: this.graphQlApi,
+    })
+
+    new CartResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-CartResolver`, {
+      CDK_STACK_NAME,
+      CDK_STACK_ENV,
+      dynamoDBDataSource,
+      graphQlApi: this.graphQlApi,
+    })
+
+    new OrderResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-OrderResolver`, {
+      CDK_STACK_NAME,
+      CDK_STACK_ENV,
+      dynamoDBDataSource,
+      graphQlApi: this.graphQlApi,
+    })
+
+    new InvoiceResolver(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-InvoiceResolver`, {
       CDK_STACK_NAME,
       CDK_STACK_ENV,
       dynamoDBDataSource,

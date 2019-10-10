@@ -2,11 +2,11 @@
   {
     "id": "cart1",
     "entity": "Cart",
-    "productsId": ["book1", "book2"]
+    "productIds": ["book1", "book2"]
   },
   {
-    "id": "book2",
+    "id": "cart2",
     "entity": "Cart",
-    "productsId": ["book1"]
+    "productIds": ["book1"]
   }
 ]

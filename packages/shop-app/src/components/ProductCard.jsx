@@ -1,8 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Typography, Grid, Card, CardActions, CardContent, CardMedia } from '@material-ui/core'
+import { Typography, Grid, Card, CardActions, CardContent, CardMedia, IconButton } from '@material-ui/core'
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
 
-export function ProductCard({ item = {} }) {
+export function ProductCard({ item = {}, onAddToCart }) {
   const {
     title,
     price,
@@ -41,7 +42,11 @@ export function ProductCard({ item = {} }) {
             {price} €
           </Typography>
         </CardContent>
-        <CardActions className={classes.actions} />
+        <CardActions className={classes.actions}>
+          <IconButton onClick={() => onAddToCart(item)}>
+            <AddShoppingCartIcon />
+          </IconButton>
+        </CardActions>
       </Card>
     </Grid>
   )

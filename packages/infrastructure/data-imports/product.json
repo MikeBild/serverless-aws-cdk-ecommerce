@@ -3,12 +3,18 @@
     "id": "book1",
     "entity": "Product",
     "title": "Book 1",
+    "description": "A first book",
+    "price": 1.2,
+    "logoUrl": "https://",
     "category": "Book"
   },
   {
     "id": "book2",
     "entity": "Product",
     "title": "Book 2",
+    "description": "A second book",
+    "price": 12.2,
+    "logoUrl": "https://",
     "category": "Book"
   }
 ]
