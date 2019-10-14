@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "aws-sdk": "2.546.0",
+    "aws-sdk": "2.548.0",
     "change-case": "3.1.0",
     "cross-spawn": "7.0.1",
     "dotenv": "8.1.0",
