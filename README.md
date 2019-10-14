@@ -15,7 +15,7 @@
   - Lambda (Functions)
   - Route53 (DNS)
   - DynamoDB (NoSQL)
-  - SSM (Systems Manager)
+  - SSM (System Manager / Parameter Store)
 
 - Frontends using
   - JavaScript (ECMA) and TypeScript
