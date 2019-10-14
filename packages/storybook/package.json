@@ -11,12 +11,12 @@
     "format": "prettier --write \"**/*.{js,jsx}\""
   },
   "dependencies": {
-    "@serverless-aws-cdk-ecommerce/react-components": "1.0.0",
+    "@serverless-aws-cdk-ecommerce/react-components": "^1.0.0",
     "storybook": "5.1.11"
   },
   "devDependencies": {
     "@babel/core": "7.6.4",
-    "@mikebild/ssmenv-cli": "1.0.0",
+    "@mikebild/ssmenv-cli": "^1.0.0",
     "@storybook/addon-actions": "5.2.3",
     "@storybook/addon-links": "5.2.3",
     "@storybook/addons": "5.2.3",
