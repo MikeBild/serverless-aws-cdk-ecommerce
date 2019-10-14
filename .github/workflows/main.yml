@@ -20,7 +20,7 @@ jobs:
         with:
           args: lerna
 
-      - name: AWS CDK Destroy Backends (AppSync Fix)
+      - name: AWS CDK Destroy (AppSync Fix)
         uses: MikeBild/aws-cdk-js-github-action@1.0.0
         with:
           args: destroy --force --app packages/infrastructure/deploy-backends.js "$CDK_STACK_NAME-$CDK_STACK_ENV-GraphQL"
@@ -51,7 +51,6 @@ jobs:
         with:
           args: build
         env:
-          NODE_ENV: production
           AWS_REGION: eu-central-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
