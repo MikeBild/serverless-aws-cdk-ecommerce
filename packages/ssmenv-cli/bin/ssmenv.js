@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const { SSM } = require('aws-sdk')
-const { constantCase } = require('change-case')
 const spawn = require('cross-spawn')
 const argv = require('minimist')(process.argv.slice(2))
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
@@ -32,8 +31,7 @@ main()
 
 async function main() {
   const ssm = new SSM({ region: 'eu-central-1' })
-  const { Parameters = [] } = await ssm.describeParameters({ MaxResults: 50 }).promise()
-  const Names = Parameters.map(({ Name }) => Name)
+  const Names = await allParametersByPath(ssm)
 
   const chunkedNames = Names.reduce((state, name, i) => {
     if (i % 10 === 0) state.push([])
@@ -48,16 +46,24 @@ async function main() {
 
   console.log(`Start mapping AWS SSM store parameters /${CDK_STACK_NAME}/${CDK_STACK_ENV}/ to environment variables.`)
 
-  allParameters
-    .filter(({ Name }) => Name.startsWith(`/${CDK_STACK_NAME}/${CDK_STACK_ENV}/`))
-    .forEach(({ Name, Value }) => {
-      const key = constantCase(Name.replace(`/${CDK_STACK_NAME}/${CDK_STACK_ENV}/`, ''))
-      const value = Value
-      const hasExistingValue = Boolean(process.env[key])
+  allParameters.forEach(({ Name, Value }) => {
+    const key = Name.replace(`/${CDK_STACK_NAME}/${CDK_STACK_ENV}/`, '')
+    const value = Value
+    const hasExistingValue = Boolean(process.env[key])
 
-      if (hasExistingValue) return console.log(`Dublicate : ${key}`)
+    if (hasExistingValue) return console.log(`Dublicate : ${key}`)
 
-      console.log(`Created   : ${key}`)
-      process.env[key] = value
-    })
+    console.log(`Created   : ${key}`)
+    process.env[key] = value
+  })
+}
+
+async function allParametersByPath(ssm, names = [], nextToken) {
+  const { Parameters = [], NextToken } = await ssm
+    .getParametersByPath({ Path: `/${CDK_STACK_NAME}/${CDK_STACK_ENV}`, NextToken: nextToken })
+    .promise()
+
+  const Names = [...names, ...Parameters.map(({ Name }) => Name)]
+
+  return NextToken ? await allParametersByPath(ssm, Names, NextToken) : Names
 }
