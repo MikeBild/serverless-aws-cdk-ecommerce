@@ -53,7 +53,7 @@ yarn build
 yarn develop
 ```
 
-## Manually deploy to AWS
+## Deploy to AWS
 
 ```bash
 yarn deploy
