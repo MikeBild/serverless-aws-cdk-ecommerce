@@ -29,7 +29,7 @@ export default function SignIn() {
       setUser(user)
 
       const { challengeName, signInUserSession } = user
-      if (challengeName === 'NEW_PASSWORD_REQUIRED') return navigate('/new-password')
+      if (challengeName === 'NEW_PASSWORD_REQUIRED') return navigate('/password')
 
       localStorage.setItem('token', signInUserSession.accessToken.jwtToken)
       navigate('/')
