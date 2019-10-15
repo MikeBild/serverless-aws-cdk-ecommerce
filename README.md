@@ -11,7 +11,7 @@
   - Cognito (JWT Auth)
   - S3 (Storage)
   - CloudFront (CDN)
-  - AppSync (GraphQL)
+  - AppSync (GraphQL Server)
   - Lambda (Functions)
   - Route53 (DNS)
   - DynamoDB (NoSQL)
