@@ -20,7 +20,8 @@
 - Frontends using
   - JavaScript (ECMA) and TypeScript
   - React
-  - Apollo GraphQL
+  - React-Router
+  - Apollo GraphQL Client
   - Material-UI
   - Parcel (Zero Config Bundler)
   - Gatsby (Static Website Generator)
