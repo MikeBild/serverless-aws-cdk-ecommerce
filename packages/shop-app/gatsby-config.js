@@ -23,6 +23,8 @@ module.exports = {
           'CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID',
           'CDK_AWS_APPSYNC_URL',
           'CDK_AWS_APPSYNC_APIKEY',
+          'npm_package_version',
+          'CDK_STACK_ENV',
         ],
       },
     },
