@@ -11,6 +11,8 @@ const config = {
   userPoolWebClientId: process.env.CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID,
   graphQlUrl: process.env.CDK_AWS_APPSYNC_URL,
   graphQlApiKey: process.env.CDK_AWS_APPSYNC_APIKEY,
+  appVersion: process.env.npm_package_version,
+  appEnv: process.env.CDK_STACK_ENV,
 }
 export default ({ element }) => (
   <ThemeProvider theme={theme}>

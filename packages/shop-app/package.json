@@ -1,7 +1,7 @@
 {
   "name": "@serverless-aws-cdk-ecommerce/shop-app",
   "description": "ECommerce Shop App",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "@material-ui/core": "4.5.1",
     "@material-ui/icons": "4.5.1",
