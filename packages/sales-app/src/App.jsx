@@ -14,6 +14,8 @@ export function App() {
     userPoolId: `${process.env.CDK_AWS_COGNITO_USER_POOL_ID}`,
     userPoolWebClientId: `${process.env.CDK_AWS_COGNITO_USER_POOL_WEBCLIENT_ID}`,
     graphQlUrl: `${process.env.CDK_AWS_APPSYNC_URL}`,
+    appVersion: `${process.env.npm_package_version}`,
+    appEnv: `${process.env.CDK_STACK_ENV}`,
   }
 
   return (

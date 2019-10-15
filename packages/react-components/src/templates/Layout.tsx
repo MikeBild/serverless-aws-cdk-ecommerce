@@ -57,7 +57,7 @@ export function Layout({
   const classes = useStyles()
   const theme = useTheme()
   const matches = useMediaQuery(theme.breakpoints.up('sm'))
-  const { user, setUser, Auth } = useContext(AppContext)
+  const { user, setUser, Auth, appVersion, appEnv } = useContext(AppContext)
   const client = useApolloClient()
   const [anchorEl, setAnchorEl] = useState()
   const isTopMenuOpen = Boolean(anchorEl)
@@ -135,6 +135,10 @@ export function Layout({
                   onClose={() => setAnchorEl(null)}
                   PaperProps={{ square: true }}
                 >
+                  <MenuItem disabled>
+                    {appVersion} {appEnv}
+                  </MenuItem>
+                  <Divider />
                   <MenuItem disabled>{currentUsername}</MenuItem>
                   <Divider />
                   {renderProfileMenu({

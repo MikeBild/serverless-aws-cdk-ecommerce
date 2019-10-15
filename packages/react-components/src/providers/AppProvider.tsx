@@ -13,6 +13,8 @@ interface AppContext {
   Auth: AuthClass
   user?: CognitoUser
   setUser: (user?: CognitoUser) => void
+  appVersion?: string
+  appEnv?: string
 }
 
 interface AppConfig {
@@ -21,6 +23,8 @@ interface AppConfig {
   userPoolWebClientId: string
   graphQlUrl: string
   graphQlApiKey?: string
+  appVersion?: string
+  appEnv?: string
 }
 
 interface AppProviderProps {
@@ -38,7 +42,7 @@ const AppContext: React.Context<AppContext> = createContext({
 
 function AppProvider({
   children,
-  config: { region, userPoolId, userPoolWebClientId, graphQlUrl, graphQlApiKey },
+  config: { region, userPoolId, userPoolWebClientId, graphQlUrl, graphQlApiKey, appVersion, appEnv },
   onLinkError = _ => {},
 }: AppProviderProps): JSX.Element {
   Amplify.configure({
@@ -81,6 +85,8 @@ function AppProvider({
     Auth,
     user,
     setUser,
+    appVersion,
+    appEnv,
   }
 
   return (
