@@ -5,19 +5,40 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Avatar, Button, CssBaseline, TextField, Link, Grid, Typography, Container } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
-export function ConfirmPage() {
+export function ForgotPage() {
   const history = useHistory()
   const classes = useStyles()
-  const { Auth } = useContext(AppContext)
+  const { Auth, user } = useContext(AppContext)
   const [message, setMessage] = useState('')
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false)
   const emailRef = useRef('')
   const codeRef = useRef('')
+  const newPasswordRef = useRef('')
+  const newPasswordVerifyRef = useRef('')
 
-  const handleSubmit = async e => {
+  const handleForgotPasswordSubmit = async e => {
     e.preventDefault()
 
     try {
-      await Auth.confirmSignUp(emailRef.current.value, codeRef.current.value)
+      await Auth.forgotPassword(emailRef.current.value)
+
+      setIsConfirmVisible(true)
+    } catch (error) {
+      console.error(error)
+      setMessage(error.message)
+    }
+  }
+
+  const handleForgotPasswordConfirmSubmit = async e => {
+    e.preventDefault()
+
+    if (newPasswordRef.current.value !== newPasswordVerifyRef.current.value) {
+      return setMessage('Die Kennwörter stimmen nicht überein.')
+    }
+
+    try {
+      await Auth.forgotPasswordSubmit(emailRef.current.value, codeRef.current.value, newPasswordRef.current.value)
+
       history.push('/signin')
     } catch (error) {
       setMessage(error.message)
@@ -32,16 +53,20 @@ export function ConfirmPage() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Benutzerregistrierung bestätigen
+          Kennwort zurücksetzen
         </Typography>
 
         <Grid item xs={12} className={classes.subtitle}>
           <Typography variant="body2" gutterBottom>
-            Bitte geben Sie den Registrierungscode aus Ihrer E-Mail ein.
+            Bitte geben Sie Ihre E-Mail Adresse ein.
           </Typography>
         </Grid>
 
-        <form className={classes.form} noValidate onSubmit={e => handleSubmit(e)}>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={e => (isConfirmVisible ? handleForgotPasswordConfirmSubmit(e) : handleForgotPasswordSubmit(e))}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -49,24 +74,54 @@ export function ConfirmPage() {
                 required
                 fullWidth
                 id="email"
-                label="EMail Adresse"
+                label="E-Mail"
                 name="email"
                 autoComplete="email"
+                autoFocus
                 inputRef={emailRef}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="confirm"
-                label="Code"
-                name="confirm"
-                autoComplete="confirm"
-                inputRef={codeRef}
-              />
-            </Grid>
+
+            {isConfirmVisible && (
+              <>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="confirm"
+                    label="Code"
+                    name="confirm"
+                    inputRef={codeRef}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    type="password"
+                    required
+                    fullWidth
+                    id="newPassword"
+                    label="Neues Kennwort"
+                    name="newPassword"
+                    inputRef={newPasswordRef}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    type="password"
+                    required
+                    fullWidth
+                    id="newPasswordVerify"
+                    label="Neues Kennwort"
+                    name="newPasswordVerify"
+                    inputRef={newPasswordVerifyRef}
+                  />
+                </Grid>
+              </>
+            )}
+
             <Grid item xs={12}>
               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                 Bestätigen
@@ -74,6 +129,7 @@ export function ConfirmPage() {
             </Grid>
           </Grid>
         </form>
+
         <Grid container spacing={2}>
           <Grid item xs={12}>
             {message && <p style={{ color: 'red' }}>{message}</p>}

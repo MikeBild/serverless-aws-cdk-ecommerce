@@ -11,11 +11,18 @@ export function SignUpPage() {
   const classes = useStyles()
   const { Auth } = useContext(AppContext)
   const [message, setMessage] = useState('')
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false)
   const emailRef = useRef('')
   const passwordRef = useRef('')
+  const passwordVerifyRef = useRef('')
+  const codeRef = useRef('')
 
-  const handleSubmit = async e => {
+  const handleSignupSubmit = async e => {
     e.preventDefault()
+
+    if (passwordRef.current.value !== passwordVerifyRef.current.value) {
+      return setMessage('Die Kennwörter stimmen nicht überein.')
+    }
 
     try {
       await Auth.signUp({
@@ -27,7 +34,19 @@ export function SignUpPage() {
         },
       })
 
-      history.push('/confirm')
+      setIsConfirmVisible(true)
+    } catch (error) {
+      setMessage(error.message)
+    }
+  }
+
+  const handleSignupConfigSubmit = async e => {
+    e.preventDefault()
+
+    try {
+      await Auth.confirmSignUp(emailRef.current.value, codeRef.current.value)
+
+      history.push('/signin')
     } catch (error) {
       setMessage(error.message)
     }
@@ -43,7 +62,11 @@ export function SignUpPage() {
         <Typography component="h1" variant="h5">
           Benutzerregistrierung
         </Typography>
-        <form className={classes.form} noValidate onSubmit={e => handleSubmit(e)}>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={e => (isConfirmVisible ? handleSignupConfigSubmit(e) : handleSignupSubmit(e))}
+        >
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -51,7 +74,7 @@ export function SignUpPage() {
                 required
                 fullWidth
                 id="email"
-                label="EMail Adresse"
+                label="E-Mail"
                 name="email"
                 autoComplete="email"
                 inputRef={emailRef}
@@ -70,6 +93,34 @@ export function SignUpPage() {
                 inputRef={passwordRef}
               />
             </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                type="password"
+                required
+                fullWidth
+                id="passwordVerifyRef"
+                label="Kennwort"
+                name="passwordVerifyRef"
+                inputRef={passwordVerifyRef}
+              />
+            </Grid>
+
+            {isConfirmVisible && (
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="confirm"
+                  label="Code"
+                  name="confirm"
+                  autoComplete="confirm"
+                  inputRef={codeRef}
+                />
+              </Grid>
+            )}
           </Grid>
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             Registrieren
