@@ -25,7 +25,7 @@ export function SignInPage() {
       setUser(user)
 
       const { challengeName, signInUserSession } = user
-      if (challengeName === 'NEW_PASSWORD_REQUIRED') return history.push('/new-password')
+      if (challengeName === 'NEW_PASSWORD_REQUIRED') return history.push('/password')
 
       localStorage.setItem('token', signInUserSession.accessToken.jwtToken)
       history.push(from)
@@ -54,7 +54,7 @@ export function SignInPage() {
             required
             fullWidth
             id="email"
-            label="EMail Adresse"
+            label="E-Mail"
             name="email"
             autoComplete="email"
             autoFocus
@@ -75,7 +75,7 @@ export function SignInPage() {
           <LoadingButton type="submit" label="Anmelden" isLoading={isLoading} />
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link to="/forgot" component={RouterLink} variant="body2">
                 Kennwort vergessen?
               </Link>
             </Grid>

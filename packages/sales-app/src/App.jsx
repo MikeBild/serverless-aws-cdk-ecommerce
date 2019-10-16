@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Route, Redirect, useLocation, useHistory } from 'react-router-dom'
 import { AppContext, AppProvider } from '@serverless-aws-cdk-ecommerce/react-components'
-import { DashboardPage } from './pages/DashboardPage'
-import { ProductPage } from './pages/ProductPage'
-import { SignInPage } from './pages/SigninPage'
-import { SignUpPage } from './pages/SignupPage'
-import { ConfirmPage } from './pages/ConfirmPage'
-import { PasswordPage } from './pages/PasswordPage'
+import { DashboardPage } from './pages/dashboard'
+import { ProductPage } from './pages/products'
+import { SignInPage } from './pages/signin'
+import { SignUpPage } from './pages/signup'
+import { PasswordPage } from './pages/password'
+import { ForgotPage } from './pages/forgot'
 
 export function App() {
   const history = useHistory()
@@ -33,11 +33,11 @@ export function App() {
       <Route path="/signup" exact>
         <SignUpPage />
       </Route>
-      <Route path="/confirm" exact>
-        <ConfirmPage />
-      </Route>
-      <Route path="/new-password" exact>
+      <Route path="/password" exact>
         <PasswordPage />
+      </Route>
+      <Route path="/forgot" exact>
+        <ForgotPage />
       </Route>
       <Route path="/" exact>
         <CheckAuth>
