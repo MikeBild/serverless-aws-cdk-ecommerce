@@ -1,4 +1,4 @@
-name: CICDProd
+name: AWS Production Deployment
 on:
   push:
     branches:
