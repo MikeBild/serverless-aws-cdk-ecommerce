@@ -1,4 +1,4 @@
-name: CICDBeta
+name: AWS Beta Deployment
 on:
   push:
     branches:
