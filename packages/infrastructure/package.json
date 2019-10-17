@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Serverless AWS-CDK Infrastructure as Code",
   "scripts": {
-    "clean": "rimraf cdk.context.json cdk.out",
+    "clean": "rimraf cdk.out",
     "deploy:configs": "cdk deploy --require-approval never --app deploy-configs.js",
     "deploy:backends": "cdk deploy --require-approval never --app deploy-backends.js",
     "deploy:frontends": "cdk deploy --require-approval never --app deploy-frontends.js",
