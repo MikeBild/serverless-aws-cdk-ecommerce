@@ -51,9 +51,6 @@
     "develop": "rimraf .cache && gatsby develop",
     "build": "npm run clean && ssmenv -- gatsby build",
     "serve": "http-server-spa public index.html 8082",
-    "test": "is-ci \"test:coverage\" \"test:watch\"",
-    "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch",
     "format": "prettier --write \"src/**/*.{js,jsx}\""
   }
 }

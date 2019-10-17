@@ -16,18 +16,18 @@ describe('SignIn User - Standardansicht', () => {
       timeout: 200000,
     })
     page = await browser.newPage()
-    await page.goto(process.env.E2E_BASE_URL, { waitUntil: 'networkidle2' })
+    await page.goto(process.env.CDK_E2E_BASE_URL, { waitUntil: 'networkidle2' })
   })
 
   afterAll(async () => {
     await browser.close()
   })
 
-  test('should includes Title with "E-Commerce"', async () => {
-    await expect(page.title()).resolves.toBe('E-Commerce')
+  test('should includes Title with "E-Commerce Sales"', async () => {
+    await expect(page.title()).resolves.toBe('E-Commerce Sales')
   })
 
-  test('should includes Button with "ANMELDEN"', async () => {
+  test.skip('should includes Button with "ANMELDEN"', async () => {
     const loginBtnText = await page.$eval('button', e => e.innerText)
     await expect(loginBtnText).toBe('ANMELDEN')
   })
