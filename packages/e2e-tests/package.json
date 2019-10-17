@@ -5,8 +5,8 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "npm run clean && mkdir build && cp -R package.json build && npm install --production --prefix build && cp -R tests build && cp runner.js build",
-    "test": "dotenv -- jest --runInBand",
-    "invoke": "dotenv -- node invoke.js",
+    "test": "ssmenv -- jest ./tests --runInBand",
+    "invoke": "ssmenv -- node invoke.js",
     "format": "prettier --write \"**/*.{js,jsx}\""
   },
   "dependencies": {
@@ -21,7 +21,8 @@
     "aws-cdk": "1.13.1",
     "aws-sdk": "2.551.0",
     "dotenv-cli": "3.0.0",
-    "prettier": "^1.18.2",
+    "@mikebild/ssmenv-cli": "^1.0.0",
+    "prettier": "1.18.2",
     "puppeteer": "1.20.0",
     "rimraf": "3.0.0"
   }

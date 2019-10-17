@@ -6,9 +6,8 @@
   "scripts": {
     "clean": "rimraf .cache dist",
     "develop": "rimraf .cache && parcel src/index.html",
-    "build": "ssmenv -- parcel build src/index.html",
+    "build": "ssmenv -- parcel build src/index.html --no-source-maps",
     "serve": "http-server-spa dist index.html 8081",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write \"src/**/*.{js,jsx}\""
   },
   "devDependencies": {

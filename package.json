@@ -2,17 +2,23 @@
   "private": true,
   "name": "root",
   "devDependencies": {
-    "husky": "^3.0.9",
-    "lerna": "^3.18.1"
+    "husky": "3.0.9",
+    "lerna": "3.18.1"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/jest/**",
+      "**/jest"
+    ]
+  },
   "scripts": {
-    "lerna": "lerna clean --yes && lerna bootstrap",
+    "lerna": "lerna bootstrap",
     "develop": "lerna run develop --stream",
-    "clean": "lerna run clean",
-    "build": "npm run clean && lerna run build --stream",
+    "clean": "lerna clean --yes",
+    "build": "lerna run clean && lerna run build --stream",
     "serve": "lerna run serve --stream",
     "test": "lerna run test --stream",
     "deploy": "npm run deploy:backends && npm run build && npm run deploy:frontends",
