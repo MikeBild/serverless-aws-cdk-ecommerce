@@ -27,7 +27,7 @@ describe('SignIn User - Standardansicht', () => {
     await expect(page.title()).resolves.toBe('E-Commerce Sales')
   })
 
-  test.skip('should includes Button with "ANMELDEN"', async () => {
+  test('should includes Button with "ANMELDEN"', async () => {
     const loginBtnText = await page.$eval('button', e => e.innerText)
     await expect(loginBtnText).toBe('ANMELDEN')
   })
