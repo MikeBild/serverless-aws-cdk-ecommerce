@@ -1,8 +1,8 @@
 # E-Commerce Example
 
 ![](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)
-![](https://github.com/mikebild/serverless-aws-cdk-ecommerce/workflows/mein.yml/badge.svg)
-![](https://github.com/mikebild/serverless-aws-cdk-ecommerce/workflows/beta.yml/badge.svg)
+![](https://github.com/mikebild/serverless-aws-cdk-ecommerce/workflows/AWS%20Production%20Deployment/badge.svg)
+![](https://github.com/mikebild/serverless-aws-cdk-ecommerce/workflows/AWS%20Beta%20Deployment/badge.svg)
 
 ## System Environment
 
