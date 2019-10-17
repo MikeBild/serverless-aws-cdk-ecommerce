@@ -23,7 +23,7 @@ async function invokeE2E(count) {
 
   try {
     const lambdaResults = await Promise.all(lambdaInvokeList)
-    console.log({ lambdaResults })
+
     lambdaResults.forEach(({ LogResult, Payload }) => {
       if (LogResult.includes('Function not found:')) return console.log(LogResult)
 
@@ -31,7 +31,7 @@ async function invokeE2E(count) {
       const { results: { success, numFailedTests, numPassedTests, numPendingTests, testResults } = {} } = JSON.parse(
         Payload
       )
-      console.log(logResults)
+
       console.log('Erfolgreiche Ausführung aller Tests: ', success)
       console.log('Erfolgreiche Tests: ', numPassedTests)
       console.log('Nicht erfolgreiche Tests: ', numFailedTests)
