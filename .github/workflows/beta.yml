@@ -75,7 +75,7 @@ jobs:
       - name: End-To-End Test Run
         uses: nuxt/actions-yarn@master
         with:
-          args: invoke
+          args: test
         env:
           AWS_REGION: eu-central-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

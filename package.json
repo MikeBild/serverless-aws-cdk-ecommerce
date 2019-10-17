@@ -20,7 +20,7 @@
     "clean": "lerna clean --yes",
     "build": "lerna run clean && lerna run build --stream",
     "serve": "lerna run serve --stream",
-    "test": "lerna run test --stream",
+    "test": "lerna run invoke --stream",
     "deploy": "npm run deploy:backends && npm run build && npm run deploy:frontends",
     "deploy:backends": "lerna run deploy:backends --stream -- ECommerce-*",
     "deploy:frontends": "lerna run deploy:frontends --stream -- ECommerce-*",
