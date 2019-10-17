@@ -41,8 +41,11 @@ async function invokeE2E(count) {
         console.log('Pfad:', x.testFilePath)
         console.log('Fehler:', x.failureMessage)
       })
+
+      process.exit(0)
     })
   } catch (error) {
     console.error(error)
+    process.exit(1)
   }
 }
