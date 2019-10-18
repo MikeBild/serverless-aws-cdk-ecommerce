@@ -72,7 +72,7 @@ export function SignInPage() {
             autoComplete="current-password"
             inputRef={passwordRef}
           />
-          <LoadingButton type="submit" label="Anmelden" isLoading={isLoading} />
+          <LoadingButton type="submit" label="Anmelden" isLoading={isLoading} testId="login-button" />
           <Grid container>
             <Grid item xs>
               <Link to="/forgot" component={RouterLink} variant="body2">
@@ -85,7 +85,9 @@ export function SignInPage() {
               </Link>
             </Grid>
             <Grid item xs={12}>
-              <div className={classes.message}>{message}</div>
+              <div className={classes.message} data-testid="error-message">
+                {message}
+              </div>
             </Grid>
           </Grid>
         </form>
