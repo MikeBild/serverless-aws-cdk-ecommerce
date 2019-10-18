@@ -6,12 +6,20 @@ import LoopIcon from '@material-ui/icons/Loop'
 interface LoadingButtonProps {
   type?: 'submit' | 'reset' | 'button'
   label?: string
+  testId?: string
   isLoading?: boolean
   isReload?: boolean
   onClick?: () => void
 }
 
-export function LoadingButton({ type = 'button', label, isLoading, isReload, onClick = () => {} }: LoadingButtonProps) {
+export function LoadingButton({
+  type = 'button',
+  label,
+  isLoading,
+  isReload,
+  onClick = () => {},
+  testId,
+}: LoadingButtonProps) {
   const classes = useStyles()
 
   return (
@@ -24,6 +32,7 @@ export function LoadingButton({ type = 'button', label, isLoading, isReload, onC
         disabled={isLoading}
         className={classes.submit}
         onClick={onClick}
+        data-testid={testId}
       >
         {isReload ? (
           <>
