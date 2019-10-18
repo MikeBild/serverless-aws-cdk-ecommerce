@@ -5,7 +5,7 @@ const baseUrl = process.env.CDK_E2E_SHOP_APP_URL
 
 describe('Shop App', () => {
   describe('Signin Page', () => {
-    // jest.setTimeout(200000)
+    jest.setTimeout(200000)
     let browser
     let page
 
@@ -14,7 +14,7 @@ describe('Shop App', () => {
         args: chrome.args,
         defaultViewport: chrome.defaultViewport,
         executablePath: await chrome.executablePath,
-        // timeout: 200000,
+        timeout: 200000,
         // slowMo: 100,
         // headless: chrome.headless,
         // devtools: true,
