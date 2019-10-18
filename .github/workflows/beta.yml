@@ -72,10 +72,10 @@ jobs:
           CDK_STACK_NAME: ECommerce
           CDK_STACK_ENV: BETA
 
-      - name: Sleep (2mins) for AWS Deployment E2E Test activation
+      - name: Sleep (5mins) for AWS Deployment E2E Test activation
         uses: maddox/actions/sleep@master
         with:
-          args: 120
+          args: 300
 
       - name: End-To-End Test Run
         uses: nuxt/actions-yarn@master
