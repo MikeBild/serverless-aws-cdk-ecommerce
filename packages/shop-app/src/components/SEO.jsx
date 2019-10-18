@@ -24,7 +24,6 @@ export function SEO({ description, lang = 'de', meta = [], keywords = [], title 
         lang,
       }}
       title={title}
-      titleTemplate={`%s | ${site.siteMetadata.title}`}
       meta={[
         {
           name: `description`,

@@ -78,7 +78,7 @@ export default function SignIn() {
             autoComplete="current-password"
             inputRef={passwordRef}
           />
-          <LoadingButton type="submit" label="Anmelden" isLoading={isLoading} />
+          <LoadingButton type="submit" label="Anmelden" isLoading={isLoading} testId="login-button" />
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -91,7 +91,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item xs={12}>
-              <div className={classes.message}>{message}</div>
+              <div className={classes.message} data-testId="error-message">{message}</div>
             </Grid>
           </Grid>
         </form>

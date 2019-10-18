@@ -6,7 +6,15 @@ module.exports = class E2ETests extends Stack {
   constructor(parent, id, props) {
     super(parent, id, props)
 
-    const { CDK_STACK_NAME, CDK_STACK_ENV, CDK_E2E_BASE_URL, CDK_E2E_USERNAME, CDK_E2E_PASSWORD } = props
+    const {
+      CDK_STACK_NAME,
+      CDK_STACK_ENV,
+      CDK_E2E_BASE_URL,
+      CDK_E2E_SALES_APP_URL,
+      CDK_E2E_SHOP_APP_URL,
+      CDK_E2E_USERNAME,
+      CDK_E2E_PASSWORD,
+    } = props
 
     new Function(this, `${CDK_STACK_NAME}-${CDK_STACK_ENV}-E2ETests-Function`, {
       functionName: `${CDK_STACK_NAME}-${CDK_STACK_ENV}-E2ETests-Function`,
@@ -17,6 +25,8 @@ module.exports = class E2ETests extends Stack {
       code: Code.fromAsset(join(__dirname, '../e2e-tests/build')),
       environment: {
         CDK_E2E_BASE_URL,
+        CDK_E2E_SALES_APP_URL,
+        CDK_E2E_SHOP_APP_URL,
         CDK_E2E_USERNAME,
         CDK_E2E_PASSWORD,
       },
