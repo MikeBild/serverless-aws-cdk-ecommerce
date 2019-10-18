@@ -66,6 +66,14 @@ module.exports = class Env extends Stack {
       this,
       `/${CDK_STACK_NAME}/${CDK_STACK_ENV}/CDK_E2E_BASE_URL`
     )
+    this.configs.CDK_E2E_SALES_APP_URL = StringParameter.valueFromLookup(
+      this,
+      `/${CDK_STACK_NAME}/${CDK_STACK_ENV}/CDK_E2E_SALES_APP_URL`
+    )
+    this.configs.CDK_E2E_SHOP_APP_URL = StringParameter.valueFromLookup(
+      this,
+      `/${CDK_STACK_NAME}/${CDK_STACK_ENV}/CDK_E2E_SHOP_APP_URL`
+    )
     this.configs.CDK_E2E_USERNAME = StringParameter.valueFromLookup(
       this,
       `/${CDK_STACK_NAME}/${CDK_STACK_ENV}/CDK_E2E_USERNAME`
